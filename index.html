@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Apple Problem</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/deck.css">
+</head>
+<body>
+
+<div id="viewport">
+  <div id="stage">
+    <div id="rail"></div>
+    <div id="stamp"></div>
+
+<!-- ═══════════════════════════════ ACT 0 — THE HOOK ═══════════════════════ -->
+
+<section class="slide" id="s-title" data-title="Title" data-act="open">
+  <div class="eyebrow" data-step="1"><span class="tick"></span>a talk about the machine we all use now</div>
+  <h1 style="font-size:74px;max-width:19ch">The Apple Problem</h1>
+  <p class="lead" data-step="1" style="font-size:29px">How a language model actually works &mdash;<br>and how knowing that makes you better at using it.</p>
+  <div class="notes">
+    <p><b>Before you start:</b> press <b>F</b> for fullscreen. <b>S</b> toggles these notes. <b>Esc</b> is the slide grid. Arrow keys or a clicker advance one build at a time.</p>
+    <p>Open plainly. Don't oversell. The promise is small and concrete: <b>thirty minutes, and you'll know why it does the weird things it does.</b></p>
+  </div>
+</section>
+
+<section class="slide" id="s-intro" data-title="Who I am / why this talk" data-act="open">
+  <div class="eyebrow"><span class="tick"></span>before we start</div>
+  <h1>I'm not here to sell you on AI.</h1>
+  <p class="lead">You already have access to it. Some of you use it every day and get a lot out of it. Some of you tried it, got something confidently wrong, and quietly stopped.</p>
+  <p class="lead" data-step="1">The difference between those two groups is <em>almost never</em> the tool. It's whether you have a working mental model of what's happening inside it.</p>
+  <div class="panel" data-step="2" style="border-left:3px solid var(--amber)">
+    <p style="margin:0">So: no hype, no jargon you don't need. By the end you'll be able to explain to someone else why it can write a decent first draft but can't count the letters in <span class="mono">strawberry</span>.</p>
+  </div>
+  <div class="notes">
+    <p>Introduce yourself here &mdash; name, team, and one honest line about how you actually use this stuff day to day.</p>
+    <p>The two-groups framing does real work: it gives the skeptics in the room permission to have been unimpressed, without making them wrong. Don't skip it.</p>
+    <p><b>Timing:</b> you want to be on the apple slide by the 3 minute mark.</p>
+  </div>
+</section>
+
+<section class="slide is-void" id="s-apple" data-title="apple — ask the room" data-act="the hook">
+  <div id="w-room" style="position:absolute;inset:0"></div>
+  <div class="hero" style="position:relative;z-index:2">apple</div>
+  <!-- Six invisible build steps: each arrow press drops in one more answer. -->
+  <span data-step="6" aria-hidden="true"></span>
+  <div class="notes">
+    <p><b>This is the whole talk in one slide. Slow down.</b></p>
+    <p>Put the word up. Say nothing for a beat. Then: <b>"When I say the word apple &mdash; what do you think of?"</b></p>
+    <p>Take real answers. Press the arrow key to drop in each one as it comes, or type anything unexpected into the field at the bottom and hit Enter. <b>Wait for someone to say the company.</b> Somebody always does. If nobody does after three or four answers, say "anyone thinking of something that isn't food?"</p>
+    <p>Do not explain anything yet. Just collect. The longer you let this breathe, the harder the next two slides land.</p>
+  </div>
+</section>
+
+<section class="slide is-void" id="s-howknow" data-title="How did you know?" data-act="the hook">
+  <div id="w-echo" style="position:absolute;inset:0"></div>
+  <h2 style="position:relative;z-index:2;font-size:56px;max-width:20ch;text-align:center">So how do you know which one I mean<br>when it comes up in conversation?</h2>
+  <div class="notes">
+    <p>Their own answers are still faintly on screen behind the question. That's deliberate &mdash; they're looking at the evidence.</p>
+    <p>Ask it, then <b>let the silence sit.</b> Someone will say "context" or "the sentence" or "what we were talking about." Nod, don't confirm yet.</p>
+    <p>Then the line you planned: <b>"I think you know where I'm going with this."</b> Beat. Advance.</p>
+  </div>
+</section>
+
+<section class="slide is-void" id="s-context" data-title="context." data-act="the hook">
+  <div class="hero" style="color:var(--amber)">context.</div>
+  <div class="notes">
+    <p>Hard cut. Say the word out loud once, flat, and let it sit.</p>
+    <p>Optional, if the room laughed: <b>"Surprise."</b></p>
+    <p>Nothing else on this slide. Resist adding anything.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-thesis" data-title="Thesis" data-act="the hook">
+  <div class="eyebrow"><span class="tick"></span>the thesis</div>
+  <h1 style="max-width:22ch">You just did, in half a second, the thing this entire technology was built to do.</h1>
+  <p class="lead" data-step="1">A word arrives with no fixed meaning. You look at everything around it. You resolve it. You don't even notice you did it.</p>
+  <p class="lead" data-step="2"><em>That's the architecture.</em> Not a metaphor for the architecture &mdash; the actual mechanism, which has a name and a shape and I'm going to show it to you.</p>
+  <p class="small" data-step="3">And then I'm going to show you what it means for the way you type into the box.</p>
+  <div class="notes">
+    <p>This is the hinge. You're making a promise: <b>the thing you just did instinctively is literally what the machine does.</b></p>
+    <p>The last line sets up the payoff slides. Every time an amber-barred slide appears from here on, the room should think "this is the part I use tomorrow."</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ ACT 1 — WORDS BECOME NUMBERS ═══════════════ -->
+
+<section class="slide" id="s-tokens" data-title="Tokenization (live)" data-act="act 1 · numbers">
+  <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
+  <h2>It never sees words. First thing it does is break them into tokens.</h2>
+  <div id="w-tokens"></div>
+  <div class="notes">
+    <p><b>This is a real GPT-2 tokenizer.</b> Real vocabulary, real merges, real ID numbers. Type anything the room shouts out.</p>
+    <p>Three things to land, in order:</p>
+    <p>1. <b>Common words survive whole, rare ones shatter.</b> Hit "rare words" &mdash; <span class="mono">unbelievable</span> becomes four pieces. The vocabulary was <em>learned</em> from what's frequent.</p>
+    <p>2. <b>Hit "apple ×3".</b> <span class="mono">apple</span>, <span class="mono">Apple</span>, and <span class="mono">·apple</span> with a leading space are three <em>different</em> tokens with three different IDs. The dot is the space. This surprises people.</p>
+    <p>3. <b>Hit "strawberry."</b> It comes apart as <span class="mono">st / raw / berry</span>. Park that &mdash; you're coming back to it in two slides.</p>
+    <p>If someone asks: modern models have bigger vocabularies, but this is the same mechanism.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-lookup" data-title="A token is just a row number" data-act="act 1 · numbers">
+  <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
+  <h2>Each token is a row number. Nothing more.</h2>
+  <div class="cols" style="align-items:center;gap:44px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="tok-row">
+        <span class="tok">The<span class="id">464</span></span>
+        <span class="tok"><span class="sp">·</span>market<span class="id">1910</span></span>
+        <span class="tok"><span class="sp">·</span>was<span class="id">373</span></span>
+        <span class="tok hot"><span class="sp">·</span>apple<span class="id">17180</span></span>
+      </div>
+      <p class="small">There is no dictionary in there. No definition of <span class="mono">apple</span> sitting in a file somewhere.</p>
+    </div>
+    <div data-step="1" class="panel">
+      <div class="eyebrow" style="margin-bottom:16px"><span class="tick"></span>what 17180 buys you</div>
+      <p style="margin:0">Row 17,180 of a very large table. And what's in that row isn't a meaning &mdash; it's a list of numbers.</p>
+    </div>
+  </div>
+  <div class="notes">
+    <p>Short slide. The job is to kill the intuition that there's a dictionary inside.</p>
+    <p>Line to use: <b>"If you went looking for the part of the model that knows what an apple is, there isn't one. There's a row number."</b></p>
+  </div>
+</section>
+
+<section class="slide" id="s-embed" data-title="Embeddings" data-act="act 1 · numbers">
+  <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
+  <h2>That row is a list of coordinates.</h2>
+  <div class="tok-row" style="gap:4px;margin:4px 0">
+    <span class="tok" style="font-size:15px;padding:6px 8px">0.31<span class="id">dim 1</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px">-0.88<span class="id">dim 2</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px">0.02<span class="id">dim 3</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px">1.44<span class="id">dim 4</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px">-0.19<span class="id">dim 5</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px">0.67<span class="id">dim 6</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px;color:var(--faint)">&hellip;<span class="id">&nbsp;</span></span>
+    <span class="tok" style="font-size:15px;padding:6px 8px">-0.41<span class="id">dim 4096</span></span>
+  </div>
+  <p class="lead" data-step="1">Thousands of numbers per token. Together they're an address &mdash; a position in a space with thousands of directions in it.</p>
+  <p class="lead" data-step="2">Nobody assigned those numbers. Nobody decided dimension 400 means <em>fruitness</em>. They fell out of training, and mostly they don't correspond to anything a human would name.</p>
+  <p class="small" data-step="3">But the <em>geometry</em> of that space turns out to mean something. That part we can look at.</p>
+  <div class="notes">
+    <p>Don't linger on the numbers themselves. The point is the shift from <b>symbol</b> to <b>position</b>.</p>
+    <p>Good line: <b>"The model doesn't have words. It has coordinates. Everything it appears to know about language is a fact about distance and direction in this space."</b></p>
+  </div>
+</section>
+
+<section class="slide" id="s-space" data-title="The map — apple is stranded" data-act="act 1 · numbers">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:30px">
+    <div>
+      <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
+      <h2 style="margin-top:12px;font-size:33px;max-width:15ch">Similar things end up near each other.</h2>
+      <div style="max-width:30ch;margin-top:22px;display:flex;flex-direction:column;gap:16px">
+        <p class="small" data-step="1">Nothing sorted these into groups. Words used in similar company drifted into similar neighbourhoods.</p>
+        <p class="small" data-step="2"><span class="amber">The arrows are the same length and direction.</span> Whatever the space encodes about rank, it encodes the same way twice.</p>
+        <p class="small" data-step="3"><span class="amber">And here's the problem.</span> <span class="mono">apple</span> lands in the empty middle. On its own, the vector cannot tell you which one you meant.</p>
+      </div>
+      <div class="disclaimer" style="margin-top:20px">positions schematic &middot; 2 of ~4096 dimensions</div>
+    </div>
+    <div id="w-space"></div>
+  </div>
+  <div class="notes">
+    <p>Step through slowly. Three beats, three arrow presses.</p>
+    <p><b>Beat 2 (arrows):</b> this is the famous one. man&rarr;king and woman&rarr;queen are the same move. Say: "nobody programmed that. It's a side effect of how the words were used."</p>
+    <p><b>Beat 3 is the money beat of Act 1.</b> Point at the dot in the middle. <b>"This is the slide-three problem, drawn. Half the room said fruit, half said the company &mdash; and the model has exactly the same problem, for exactly the same reason. The word alone isn't enough."</b></p>
+    <p>Be honest if asked: I placed these words by hand so you can read it. A real projection of 4096 dimensions down to two is an unreadable smear. The <em>structure</em> &mdash; clusters, and that parallelogram &mdash; is real.</p>
+  </div>
+</section>
+
+<section class="slide is-payoff" id="s-payoff-words" data-title="SO WHAT — words are coordinates" data-act="payoff">
+  <div class="payoff-head">so what &mdash; #1</div>
+  <h1 style="max-width:24ch">Every word you type is you choosing a neighbourhood.</h1>
+  <div class="swap" data-step="1">
+    <div class="bad">
+      <div class="tag">lands nowhere</div>
+      <div class="quote">&ldquo;Make this better.&rdquo;</div>
+      <p class="small" style="margin-top:12px">Points at the vague middle of the space. The model picks a direction for you &mdash; and it will pick the most average one.</p>
+    </div>
+    <div class="good">
+      <div class="tag">lands somewhere</div>
+      <div class="quote">&ldquo;Tighten paragraph two. Cut the hedging.&rdquo;</div>
+      <p class="small" style="margin-top:12px">Every one of those words drags the answer into a specific region before it writes a thing.</p>
+    </div>
+  </div>
+  <hr class="rule" data-step="2">
+  <div class="cols" data-step="2" style="gap:34px">
+    <div>
+      <div class="eyebrow" style="margin-bottom:10px"><span class="tick"></span>and the strawberry thing</div>
+      <p class="small">It sees <span class="mono">st&nbsp;/&nbsp;raw&nbsp;/&nbsp;berry</span>. Three coordinates. It never sees letters, so counting them is genuinely hard for it &mdash; not a bug, a consequence of the front door.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:10px"><span class="tick"></span>the rule that follows</div>
+      <p class="small">Anything that depends on <em>characters</em> &mdash; counting, spelling, rhyme, reversing a string &mdash; is its weakest ground. Anything that depends on <em>meaning</em> is its strongest. Aim accordingly.</p>
+    </div>
+  </div>
+  <div class="notes">
+    <p><b>First payoff slide &mdash; teach the room the pattern.</b> Say: "every so often I'm going to stop and tell you what this actually buys you. This is the first one."</p>
+    <p>The two-column comparison is the takeaway. Encourage a photo.</p>
+    <p>The strawberry callback should get a reaction &mdash; a lot of people have seen the model fail at this and assumed it was stupid. Reframe: <b>"it's not stupid, it's blind to letters. You'd be bad at counting letters too if you only ever saw whole syllables."</b></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ ACT 2 — CONTEXT ════════════════════════════ -->
+
+<section class="slide" id="s-order" data-title="Order matters" data-act="act 2 · context">
+  <div class="eyebrow"><span class="tick"></span>act two &middot; context</div>
+  <h2>A pile of coordinates isn't a sentence.</h2>
+  <div class="cols" style="gap:40px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="panel"><span class="mono" style="font-size:21px">dog bites man</span></div>
+      <div class="panel"><span class="mono" style="font-size:21px">man bites dog</span></div>
+      <p class="small">Identical tokens. Identical vectors. Wildly different news day.</p>
+    </div>
+    <div data-step="1" style="display:flex;flex-direction:column;gap:16px">
+      <div class="eyebrow"><span class="tick"></span>the fix</div>
+      <p>So each position gets its own signature added to the vector before anything else happens &mdash; a stamp saying <em>you are the third token</em>.</p>
+      <p class="small">Unglamorous, and load-bearing. Without it the model is a bag of words with no grammar.</p>
+    </div>
+  </div>
+  <div class="notes">
+    <p>Fast slide &mdash; thirty seconds. It exists so nobody derails Q&amp;A asking how it knows word order.</p>
+    <p>Don't say "positional encoding" unless someone asks. "A stamp saying which position you're in" is enough.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-attn-idea" data-title="The idea of attention" data-act="act 2 · context">
+  <div class="eyebrow"><span class="tick"></span>act two &middot; context</div>
+  <h2>Now the actual trick. Every token gets to look at the others.</h2>
+  <div class="cols-3" data-step="1" style="gap:22px;margin-top:6px">
+    <div class="panel" style="border-top:3px solid var(--amber)">
+      <div class="pill" style="margin-bottom:14px;color:var(--amber);border-color:var(--amber-line)">the question</div>
+      <p style="font-size:21px">Each token broadcasts what it needs to know.</p>
+      <p class="small" style="margin-top:12px"><span class="mono amber">apple</span> asks: <em>&ldquo;which kind of apple am I?&rdquo;</em></p>
+    </div>
+    <div class="panel" style="border-top:3px solid var(--tech)">
+      <div class="pill" style="margin-bottom:14px;color:var(--tech);border-color:rgba(110,141,224,.42)">the advert</div>
+      <p style="font-size:21px">Every other token advertises what it can answer.</p>
+      <p class="small" style="margin-top:12px"><span class="mono tech-fg">market</span> advertises: <em>&ldquo;I'm about money and companies.&rdquo;</em></p>
+    </div>
+    <div class="panel" style="border-top:3px solid var(--fruit)">
+      <div class="pill" style="margin-bottom:14px;color:var(--fruit);border-color:rgba(79,179,156,.42)">the answer</div>
+      <p style="font-size:21px">Whoever matches best hands over the most meaning.</p>
+      <p class="small" style="margin-top:12px">The question and the adverts are compared. Loudest match wins, proportionally.</p>
+    </div>
+  </div>
+  <p class="lead" data-step="2" style="margin-top:8px">Every token does this, about every other token, simultaneously. That's attention. That's the T in GPT.</p>
+  <div class="notes">
+    <p>Query / key / value, without the vocabulary. Only name them if an engineer asks &mdash; then: question = query, advert = key, meaning handed over = value.</p>
+    <p><b>The word "simultaneously" matters.</b> It's why this architecture won: the comparisons all happen at once, which is what makes it trainable at scale. Older models had to walk the sentence one word at a time.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-formula" data-title="The formula, once" data-act="act 2 · context">
+  <div class="eyebrow"><span class="tick"></span>act two &middot; context &middot; the only formula in this talk</div>
+  <div style="display:flex;flex-direction:column;gap:34px;align-items:center;margin-top:10px">
+    <div class="mono" style="font-size:52px;letter-spacing:-0.01em" data-step="0">
+      <span style="color:var(--muted)">softmax</span>(<span class="amber">Q</span><span class="tech-fg">K</span><sup style="font-size:26px">T</sup>
+      <span style="color:var(--muted)">/&radic;d</span>)<span class="fruit-fg">V</span>
+    </div>
+    <div class="cols-3" style="gap:26px;width:100%" data-step="1">
+      <div><div class="pill amber" style="border-color:var(--amber-line);margin-bottom:10px">Q &middot; the question</div><p class="small">what this token needs to know</p></div>
+      <div><div class="pill tech-fg" style="border-color:rgba(110,141,224,.42);margin-bottom:10px">K &middot; the advert</div><p class="small">what every token offers</p></div>
+      <div><div class="pill fruit-fg" style="border-color:rgba(79,179,156,.42);margin-bottom:10px">V &middot; the meaning</div><p class="small">what actually gets handed over</p></div>
+    </div>
+    <div class="cols" style="gap:26px;width:100%" data-step="2">
+      <div><div class="pill" style="margin-bottom:10px">QK<sup>T</sup> &middot; compare</div><p class="small">multiply every question against every advert &mdash; one number per pair, saying how well they match</p></div>
+      <div><div class="pill" style="margin-bottom:10px">softmax &middot; turn into shares</div><p class="small">squash those into percentages that add to 100. Attention is a fixed budget being divided up</p></div>
+    </div>
+  </div>
+  <p class="small" data-step="3" style="text-align:center;margin-top:6px">That's it. That's the formula the whole industry is built on. You won't see another one.</p>
+  <div class="notes">
+    <p>Promise kept: this is the only formula. Say that out loud &mdash; the non-technical half of the room relaxes immediately.</p>
+    <p><b>The idea to actually land is "fixed budget."</b> Softmax forces the weights to sum to one. Attention paid to one token is attention taken from another. That single fact is the entire basis of payoff slide #2, so plant it firmly here.</p>
+    <p>If nobody in the room is technical, you can advance through this in fifteen seconds. Don't cut it &mdash; seeing the real formula and being told they already understand it is worth the time.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-attn-live" data-title="Attention (live)" data-act="act 2 · context">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <div class="eyebrow"><span class="tick"></span>act two &middot; context</div>
+    <p class="small" style="font-size:17px">click any token to see what it looks at</p>
+  </div>
+  <h2 style="font-size:32px">Same sentence structure. One word changed. Watch where <span class="amber mono" style="font-size:29px">apple</span> looks.</h2>
+  <div id="w-attn"></div>
+  <div class="notes">
+    <p><b>Drive this one. It's the demo the talk is built around.</b></p>
+    <p>Start on <b>orchard</b>. <span class="mono">apple</span> is already selected. Its attention goes to <span class="mono">orchard</span>, <span class="mono">ripe</span>, <span class="mono">picked</span>.</p>
+    <p>Now hit <b>market</b>. <b>The sentence is identical except for three words</b> &mdash; and the arcs swing to <span class="mono">market</span> and <span class="mono">bought</span>. Say: "same word, same position, same everything. Only the context changed."</p>
+    <p><b>Point out the greyed-out tokens.</b> A token can only look <em>backwards</em>. It genuinely cannot see what comes after it &mdash; that's not a simplification for the slide, that's how these models work, and it's why they generate one word at a time. You'll cash that in on the loop slide.</p>
+    <p>The grey self-loop is the token attending to itself. It's real, it's usually the largest single weight, and it's not the interesting part &mdash; say so and move on before someone asks.</p>
+    <p>Click a few other tokens if the room is engaged. <span class="mono">bought</span> looking back at <span class="mono">I</span> is a nice one.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-move" data-title="★ The vector moves" data-act="act 2 · context">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <div class="eyebrow"><span class="tick"></span>act two &middot; context &middot; the payoff</div>
+    <p class="small" style="font-size:17px" data-step="1">press &rarr; to run one more layer</p>
+  </div>
+  <h2 style="font-size:31px">So the word stops being stranded. Context <em>moves it</em>.</h2>
+  <div id="w-move"></div>
+  <!-- Step 1 shows the hint; steps 2-7 each run one more transformer layer. -->
+  <span data-step="7" aria-hidden="true"></span>
+  <div class="notes">
+    <p><b>This is the slide the whole talk exists for. Do not rush it.</b></p>
+    <p>Set it up: <b>"Remember the dot stuck in the middle? Watch what the context does to it."</b></p>
+    <p>Press the arrow key once per layer. Six presses. Narrate: "one layer, it leans. Two, it leans further." The dot walks into the fruit cluster and stops near <span class="mono">orchard</span> and <span class="mono">ripe</span>.</p>
+    <p>Then switch to <b>market</b> and run it again. Same starting dot. Opposite corner of the map.</p>
+    <p><b>The line to land:</b> "The word <em>apple</em> didn't change. Its meaning did &mdash; and the meaning literally lives somewhere different now. That's what this thing does. That's all it does."</p>
+    <p><b>And the second lesson:</b> notice it took six layers, not one. One layer only nudges. This is the honest answer to "why are these models so deep" &mdash; depth is how a nudge becomes a decision. Real models stack dozens to hundreds of these.</p>
+    <p>Honesty note if asked: the map positions are hand-placed, but the <em>path</em> is computed &mdash; that's a real attention update running, and the dot goes wherever the arithmetic puts it.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-heads" data-title="Multi-head" data-act="act 2 · context">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <div class="eyebrow"><span class="tick"></span>act two &middot; context</div>
+    <div class="disclaimer">schematic &middot; head behaviours are documented, weights illustrative</div>
+  </div>
+  <h2 style="font-size:32px">And it isn't doing this once. It's doing it dozens of times in parallel, each looking for something different.</h2>
+  <div id="w-heads"></div>
+  <p class="small" data-step="1">Different heads specialise: grammar, who-did-what, where the sentence breaks, what it's about. Nobody assigned them those jobs &mdash; researchers found them afterwards by going in and looking.</p>
+  <div class="notes">
+    <p>Keep it to a minute. The takeaway is <b>parallel specialists, not one mechanism</b>.</p>
+    <p>The "nobody assigned them those jobs" line is worth saying carefully &mdash; it's the first hint of the bigger point on the training slide, that all of this structure is <em>discovered</em>, not designed.</p>
+    <p>If someone asks whether these are real weights: no, these four are drawn from published descriptions of head types people have actually found. The bottom-right one is the live arithmetic from the last slide.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-stack" data-title="Stack it" data-act="act 2 · context">
+  <div class="eyebrow"><span class="tick"></span>act two &middot; context</div>
+  <h2>Then you stack that block. Again. And again.</h2>
+  <div style="display:flex;gap:46px;align-items:center;margin-top:4px">
+    <svg viewBox="0 0 360 352" width="360" height="352" role="img"
+         aria-label="A stack of transformer blocks, each reading from and writing back to a shared residual stream">
+      <!-- The residual stream: one continuous line the whole stack writes into. -->
+      <line x1="26" y1="8" x2="26" y2="322" stroke="#e9a33c" stroke-width="2.5" opacity="0.55"/>
+      <text x="26" y="344" class="svg-label" text-anchor="middle" fill="#e9a33c" style="font-size:12px">residual stream</text>
+
+      <g stroke="#e9a33c" stroke-width="1.4" opacity="0.6" fill="none">
+        <path d="M26 46 L84 46"/>
+        <path d="M294 46 L330 46 L330 86 L26 86"/>
+        <path d="M26 132 L84 132"/>
+        <path d="M294 132 L330 132 L330 172 L26 172"/>
+      </g>
+      <!-- Where each block adds its result back in. -->
+      <g fill="#0a0d14" stroke="#e9a33c" stroke-width="1.4" opacity="0.8">
+        <circle cx="26" cy="86" r="5"/>
+        <circle cx="26" cy="172" r="5"/>
+      </g>
+      <g fill="#e9a33c" style="font-family:var(--mono);font-size:11px" text-anchor="middle">
+        <text x="26" y="90">+</text>
+        <text x="26" y="176">+</text>
+      </g>
+
+      <rect x="84" y="20" width="210" height="52" fill="#151b26" stroke="#242d3d"/>
+      <text x="98" y="43" class="svg-label" fill="#eceff5">attention</text>
+      <text x="98" y="61" class="svg-label" style="font-size:11px">read the other tokens</text>
+
+      <rect x="84" y="106" width="210" height="52" fill="#151b26" stroke="#242d3d"/>
+      <text x="98" y="129" class="svg-label" fill="#eceff5">feed-forward</text>
+      <text x="98" y="147" class="svg-label" style="font-size:11px">think about what you found</text>
+
+      <text x="189" y="206" class="svg-label" text-anchor="middle" fill="#7f8aa0">&#8942;</text>
+      <text x="189" y="230" class="svg-label" text-anchor="middle">&times; 32, 80, 120 &hellip;</text>
+
+      <g opacity="0.4">
+        <rect x="84" y="252" width="210" height="32" fill="#151b26" stroke="#242d3d"/>
+        <text x="98" y="273" class="svg-label" style="font-size:12px">attention</text>
+        <rect x="84" y="294" width="210" height="32" fill="#151b26" stroke="#242d3d"/>
+        <text x="98" y="315" class="svg-label" style="font-size:12px">feed-forward</text>
+        <g stroke="#e9a33c" stroke-width="1.4" opacity="0.6" fill="none">
+          <path d="M26 268 L84 268"/>
+          <path d="M26 310 L84 310"/>
+        </g>
+      </g>
+    </svg>
+    <div style="flex:1;display:flex;flex-direction:column;gap:20px">
+      <p class="lead" data-step="1" style="font-size:25px">That amber line is the token's running notebook. Every block reads it, adds a bit of understanding, and passes it up.</p>
+      <p class="small" data-step="2">Attention gathers information from other tokens. The feed-forward layer is where most of the model's stored knowledge lives &mdash; it's the bigger half by parameter count, and it's what's actually doing the &ldquo;thinking&rdquo; about what attention just dragged in.</p>
+      <p class="small" data-step="3">Do this eighty times and a coordinate that started out meaning <em>&ldquo;some kind of apple&rdquo;</em> ends up meaning <em>&ldquo;the company, in a sentence about a stock, being discussed approvingly, in the middle of a comparison.&rdquo;</em></p>
+    </div>
+  </div>
+  <div class="notes">
+    <p>The residual stream as a <b>running notebook</b> is the metaphor to lean on. Each layer doesn't replace the meaning, it annotates it.</p>
+    <p>Worth saying: people assume attention is where the knowledge is. It isn't &mdash; attention is the <em>routing</em>. The feed-forward layers hold most of the parameters and most of what the model actually knows.</p>
+  </div>
+</section>
+
+<section class="slide is-payoff" id="s-payoff-context" data-title="SO WHAT — the context window" data-act="payoff">
+  <div class="payoff-head">so what &mdash; #2 &middot; the big one</div>
+  <h1 style="max-width:30ch;font-size:46px">Everything in the window is competing for a fixed budget of attention.</h1>
+  <p class="lead" data-step="1" style="font-size:23px;max-width:74ch">Softmax forces the weights to add up to 100%. Attention spent on your preamble is attention <em>not</em> spent on your question. Arithmetic, not a metaphor.</p>
+  <ul class="clean" data-step="2" style="gap:13px">
+    <li><span><strong>A long messy thread gets worse answers than a short clean one.</strong> Not fatigue &mdash; dilution. Starting a fresh chat is a real fix, not superstition.</span></li>
+    <li><span><strong>Restate the goal at the end of a long thread.</strong> Recency is competitive advantage. Don't trust an instruction to survive forty messages.</span></li>
+    <li><span><strong>Headings and numbered lists genuinely help.</strong> Structure gives attention something to anchor on.</span></li>
+    <li><span><strong>Paste the actual document.</strong> Describing it from memory only gives the model coordinates for your description.</span></li>
+    <li><span><strong>Irrelevant context is not free.</strong> Five documents when one is relevant measurably degrades the answer.</span></li>
+  </ul>
+  <div class="notes">
+    <p><b>If they take one slide away, make it this one.</b> Say that. Pause for photos.</p>
+    <p>Tie every bullet back to the fixed budget &mdash; that's what makes this advice different from the listicles they've all skimmed. They now know <em>why</em>.</p>
+    <p>The "start a fresh chat" point tends to get an audible reaction. A lot of people do it and feel vaguely superstitious about it. Tell them they were right.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ ACT 3 — PREDICTION, LEARNING, LIMITS ═══════════════ -->
+
+<section class="slide" id="s-predict" data-title="Next token (live)" data-act="act 3 · prediction">
+  <div class="eyebrow"><span class="tick"></span>act three &middot; what comes out</div>
+  <h2 style="font-size:32px">After all that, it does exactly one thing: score every token in its vocabulary.</h2>
+  <div id="w-predict"></div>
+  <div class="notes">
+    <p>Frame it: <b>"a hundred billion parameters, eighty layers, and the output is a ranked list of about a hundred thousand guesses at the next word."</b></p>
+    <p>Flip between orchard and market. <b>Same machinery, different context, completely different top answer</b> &mdash; " bite" versus " position". That's Act 2 cashing out.</p>
+    <p><b>Now the temperature slider.</b> Drag it to 0.05: it always says the same thing. Drag it to 2.0: the nonsense at the bottom starts getting real probability. Say: <b>"this is the creativity dial, and it's just how flat you make this graph before rolling the dice."</b></p>
+    <p>Low temperature for anything factual or code. Higher when you want options and you'll do the picking.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-loop" data-title="The loop" data-act="act 3 · prediction">
+  <div class="eyebrow"><span class="tick"></span>act three &middot; what comes out</div>
+  <h2>Then it appends the word and runs the entire thing again.</h2>
+  <div id="w-loop"></div>
+  <div class="notes">
+    <p>Let it play. The rhythm does the work.</p>
+    <p><b>The line:</b> "There is no plan. There is no outline it's working from. Every word you have ever seen it produce was chosen with no knowledge of the word that came after."</p>
+    <p>Callback: <b>this is why tokens can only look backwards.</b> The mask you saw on the attention slide is what makes this loop possible.</p>
+    <p><b>And the practical hook, which sets up the playbook:</b> if it can only think by producing tokens, then giving it room to produce tokens before answering &mdash; "think it through step by step", "list the options first" &mdash; is literally giving it more computation. That's not a trick. That's the architecture.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-train" data-title="How it learns" data-act="act 3 · prediction">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <div class="eyebrow"><span class="tick"></span>act three &middot; where it all came from</div>
+    <div class="disclaimer">real gradient descent &middot; toy target</div>
+  </div>
+  <h2 style="font-size:31px">Nobody wrote any of this down. It's the residue of a trillion guesses.</h2>
+  <div id="w-train"></div>
+  <div class="notes">
+    <p>Let the grid run while you talk. It starts as pure noise and an apple arrives &mdash; and <b>nothing in the code knows what an apple is</b>. It only ever knew "you were wrong by this much, adjust."</p>
+    <p>That's real gradient descent on screen, and that loss curve is measured from the run, not drawn.</p>
+    <p>Scale it up for them: <b>the real version plays "guess the next token" across a large fraction of the public internet, adjusting billions of numbers a fraction at a time, for months.</b></p>
+    <p><b>The point to land:</b> grammar, facts, tone, some reasoning &mdash; none of it was programmed. All of it is a side effect of getting better at guessing the next word. That's why it's uneven: it's good at what was well-represented and shaky at what wasn't.</p>
+    <p>And it's why there's a knowledge cutoff. Training ended on a date. Nothing after it is in there.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-rlhf" data-title="Then it's taught to be useful" data-act="act 3 · prediction">
+  <div class="eyebrow"><span class="tick"></span>act three &middot; where it all came from</div>
+  <h2>What that gives you is not an assistant. It's an autocomplete.</h2>
+  <div style="display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr;gap:16px;align-items:center;margin-top:12px">
+    <div class="panel" style="border-top:3px solid var(--faint)">
+      <div class="pill" style="margin-bottom:12px">stage 1 &middot; pretraining</div>
+      <p style="font-size:20px">Guess the next token, across everything.</p>
+      <p class="small" style="margin-top:10px">Ask it a question and it might continue with <em>more questions</em> &mdash; because that's what a list of questions looks like.</p>
+    </div>
+    <div style="text-align:center;color:var(--amber);font-size:24px">&rarr;</div>
+    <div class="panel" data-step="1" style="border-top:3px solid var(--tech)">
+      <div class="pill" style="margin-bottom:12px">stage 2 &middot; demonstrations</div>
+      <p style="font-size:20px">Humans write thousands of examples of a good answer.</p>
+      <p class="small" style="margin-top:10px">It learns the <em>shape</em> of being helpful: address the question, then stop.</p>
+    </div>
+    <div style="text-align:center;color:var(--amber);font-size:24px" data-step="2">&rarr;</div>
+    <div class="panel" data-step="2" style="border-top:3px solid var(--amber)">
+      <div class="pill" style="margin-bottom:12px">stage 3 &middot; preference</div>
+      <p style="font-size:20px">Humans rank pairs of answers. Better-rated behaviour gets reinforced.</p>
+      <p class="small" style="margin-top:10px">This is where the tone comes from. And the hedging. And the agreeableness.</p>
+    </div>
+  </div>
+  <p class="lead" data-step="3" style="margin-top:14px">Stage three is a <em>taste</em> transplant, not a knowledge transplant. It changed how the model talks to you &mdash; it did not make it more correct.</p>
+  <div class="notes">
+    <p>Ninety seconds. The one thing they must leave with: <b>the confident, agreeable, well-organised voice is a trained style, and it is uncorrelated with accuracy.</b></p>
+    <p>Good line: <b>"It was rewarded for producing answers people liked. Nobody was checking, at that stage, whether the answers were true."</b></p>
+    <p>Sets up the next slide directly &mdash; don't over-explain here.</p>
+  </div>
+</section>
+
+<section class="slide is-payoff" id="s-payoff-fail" data-title="SO WHAT — the failure modes" data-act="payoff">
+  <div class="payoff-head">so what &mdash; #3</div>
+  <h1 style="max-width:25ch">Every famous failure is this same machine working exactly as described.</h1>
+  <div class="cols" data-step="1" style="gap:32px;margin-top:2px">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div>
+        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it made something up</div>
+        <p class="small">It always returns the most plausible continuation. When the evidence is thin, the most plausible continuation is a <em>confident fabrication</em> &mdash; there is no separate step where it checks. <strong>So: ask for sources and check them. Never ask it for a fact only a database could know.</strong></p>
+      </div>
+      <div>
+        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it sounded certain and was wrong</div>
+        <p class="small">Confidence is stage-three style, not stage-one knowledge. Tone carries <em>zero</em> information about accuracy. <strong>So: stop reading fluency as competence.</strong></p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div>
+        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it just agreed with me</div>
+        <p class="small">Agreement got rated highly by humans, so agreement got reinforced. <strong>So: never ask &ldquo;is this good?&rdquo; Ask &ldquo;what's the strongest argument this is wrong?&rdquo;</strong> You have to explicitly buy the criticism back.</p>
+      </div>
+      <div>
+        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it forgot / it didn't know</div>
+        <p class="small">No memory between conversations, and a hard training cutoff. <strong>So: assume every chat starts from nothing, and paste in anything recent or internal.</strong></p>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <p>Frame it up front: <b>"none of these are bugs somebody forgot to fix. Every one of them falls out of a design decision I've already shown you."</b></p>
+    <p>The sycophancy one lands hardest with anyone using it for review or feedback. Give them the exact replacement phrasing &mdash; "what's the strongest argument this is wrong" &mdash; and tell them to steal it.</p>
+    <p>Don't be cynical here. The framing is <b>"knowing the failure mode is what lets you use it hard"</b>, not "it's unreliable, be careful."</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CLOSE ══════════════════════════════════ -->
+
+<section class="slide" id="s-playbook" data-title="The playbook" data-act="close">
+  <div class="eyebrow"><span class="tick"></span>the whole talk, on one slide</div>
+  <h2 style="font-size:33px">Seven habits, and the reason each one works.</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 30px;margin-top:6px">
+    <div class="panel" style="padding:14px 18px">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Be specific about the target.</strong></p>
+      <p class="tiny">Words are coordinates. Vague words point at the average of everything.</p>
+    </div>
+    <div class="panel" style="padding:14px 18px">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Keep the window clean.</strong></p>
+      <p class="tiny">Attention is a fixed budget. Irrelevant context is subtracted from the relevant kind.</p>
+    </div>
+    <div class="panel" style="padding:14px 18px">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Paste the real thing.</strong></p>
+      <p class="tiny">It can only attend to what's actually in the window. A description isn't the document.</p>
+    </div>
+    <div class="panel" style="padding:14px 18px">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Restate the goal at the end.</strong></p>
+      <p class="tiny">Recency competes better. Don't trust an instruction to survive forty messages.</p>
+    </div>
+    <div class="panel" style="padding:14px 18px">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Let it think out loud first.</strong></p>
+      <p class="tiny">It computes by producing tokens. Room to work is literally more computation.</p>
+    </div>
+    <div class="panel" style="padding:14px 18px">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Ask for the counter-argument.</strong></p>
+      <p class="tiny">Agreement was rewarded. You have to explicitly buy the criticism back.</p>
+    </div>
+    <div class="panel" style="padding:14px 18px;grid-column:1 / -1;border-left:3px solid var(--amber)">
+      <p style="font-size:19px;margin-bottom:5px"><strong>Verify anything that has to be true.</strong></p>
+      <p class="tiny">It returns the most plausible continuation, not the most correct one. That's the machine, not a defect &mdash; and it's the one habit that makes all the others safe to rely on.</p>
+    </div>
+  </div>
+  <div class="notes">
+    <p><b>This is the photograph slide.</b> Say "this is the one to take a picture of" and then genuinely stop talking for five seconds. Let them.</p>
+    <p>Don't read all seven aloud &mdash; you've earned every one already. Pick the two that fit your team best and say those.</p>
+    <p>Then offer: you'll send the deck round afterwards. Everything here is clickable.</p>
+  </div>
+</section>
+
+<section class="slide is-void" id="s-close" data-title="Back to apple" data-act="close">
+  <div class="hero">apple</div>
+  <p class="lead" data-step="1" style="text-align:center;max-width:34ch;font-size:24px;color:var(--muted);margin-top:18px">You resolved this in half a second and didn't notice.<br>It takes a hundred billion parameters, eighty layers, and it still gets it wrong sometimes.</p>
+  <p class="small" data-step="2" style="text-align:center;color:var(--amber);font-size:22px">Now you know why &mdash; and what to do about it.</p>
+  <div class="notes">
+    <p>Back where you started, on the same word, on the same black.</p>
+    <p>Land the two lines and stop. <b>Don't add a summary</b> &mdash; the playbook slide was the summary.</p>
+    <p>Then: "Questions." Press <b>Esc</b> for the slide grid to jump back to anything they ask about &mdash; the attention demo and the moving-vector slide are the two people usually want to see again.</p>
+  </div>
+</section>
+
+  </div><!-- /stage -->
+</div><!-- /viewport -->
+
+<div id="overview" role="dialog" aria-label="All slides">
+  <h4>all slides &mdash; click to jump, esc to close</h4>
+  <div id="ov-grid"></div>
+</div>
+
+<div id="notes" aria-live="polite">
+  <div class="hd"></div>
+  <div class="bd"></div>
+</div>
+
+<div id="help">
+  <b>&rarr;</b> / space &nbsp; next build<br>
+  <b>&larr;</b> &nbsp; back<br>
+  <b>&uarr;</b> <b>&darr;</b> &nbsp; whole slide<br>
+  <b>S</b> &nbsp; speaker notes<br>
+  <b>F</b> &nbsp; fullscreen<br>
+  <b>Esc</b> &nbsp; all slides<br>
+  <b>?</b> &nbsp; close this
+</div>
+
+<script src="data/bpe.js"></script>
+<script src="data/vectors.js"></script>
+<script src="js/tokenizer-engine.js"></script>
+<script src="js/attention-math.js"></script>
+<script src="js/widgets/room.js"></script>
+<script src="js/widgets/tokenizer.js"></script>
+<script src="js/widgets/space.js"></script>
+<script src="js/widgets/attention.js"></script>
+<script src="js/widgets/predict.js"></script>
+<script src="js/widgets/training.js"></script>
+<script src="js/widgets/index.js"></script>
+<script src="js/deck.js"></script>
+</body>
+</html>

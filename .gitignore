@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+_audit.html
+
+# Built artifacts — regenerate with: node tools/build-single.mjs
+dist/
