@@ -66,22 +66,11 @@
 
 <section class="slide is-void" id="s-context" data-title="context." data-act="the hook">
   <div class="hero" style="color:var(--amber)">context.</div>
+  <p class="lead" data-step="1" style="text-align:center;max-width:40ch;font-size:25px;margin-top:16px">You did that in half a second without noticing.<br>It is also, more or less, the entire architecture.</p>
   <div class="notes">
     <p>Hard cut. Say the word out loud once, flat, and let it sit.</p>
     <p>Optional, if the room laughed: <b>"Surprise."</b></p>
-    <p>Nothing else on this slide. Resist adding anything.</p>
-  </div>
-</section>
-
-<section class="slide" id="s-thesis" data-title="Thesis" data-act="the hook">
-  <div class="eyebrow"><span class="tick"></span>the thesis</div>
-  <h1 style="max-width:22ch">You just did, in half a second, the thing this entire technology was built to do.</h1>
-  <p class="lead" data-step="1">A word arrives with no fixed meaning. You look at everything around it. You resolve it. You don't even notice you did it.</p>
-  <p class="lead" data-step="2"><em>That's the architecture.</em> Not a metaphor for the architecture &mdash; the actual mechanism, which has a name and a shape and I'm going to show it to you.</p>
-  <p class="small" data-step="3">And then I'm going to show you what it means for the way you type into the box.</p>
-  <div class="notes">
-    <p>This is the hinge. You're making a promise: <b>the thing you just did instinctively is literally what the machine does.</b></p>
-    <p>The last line sets up the payoff slides. Every time an amber-barred slide appears from here on, the room should think "this is the part I use tomorrow."</p>
+    <p><b>Then press once more</b> for the bridge line. It's carrying the job a whole slide used to do, so deliver it and move &mdash; don't elaborate. The next thing out of your mouth is "let me show you the machine that does it."</p>
   </div>
 </section>
 
@@ -101,49 +90,49 @@
   </div>
 </section>
 
-<section class="slide" id="s-lookup" data-title="A token is just a row number" data-act="act 1 · numbers">
+<section class="slide" id="s-lookup" data-title="One token, 4,096 numbers" data-act="act 1 · numbers">
   <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
-  <h2>Each token is a row number. Nothing more.</h2>
-  <div class="cols" style="align-items:center;gap:44px">
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="tok-row">
-        <span class="tok">The<span class="id">464</span></span>
-        <span class="tok"><span class="sp">·</span>market<span class="id">1910</span></span>
-        <span class="tok"><span class="sp">·</span>was<span class="id">373</span></span>
-        <span class="tok hot"><span class="sp">·</span>apple<span class="id">17180</span></span>
-      </div>
-      <p class="small">There is no dictionary in there. No definition of <span class="mono">apple</span> sitting in a file somewhere.</p>
-    </div>
-    <div data-step="1" class="panel">
-      <div class="eyebrow" style="margin-bottom:16px"><span class="tick"></span>what 17180 buys you</div>
-      <p style="margin:0">Row 17,180 of a very large table. And what's in that row isn't a meaning &mdash; it's a list of numbers.</p>
+  <h2 style="font-size:34px">The token number is just an address. This is what's at that address.</h2>
+  <div id="w-vector"></div>
+  <div class="deeper" data-step="3">
+    <span class="mark">read later</span>
+    <div>
+      <p>There is no dictionary in the model. No definition of <span class="mono">apple</span> sitting in a file. Token 17180 is a row number, and the row is this list of numbers &mdash; which on its own means nothing at all.</p>
+      <p>This is also where the size of these things starts to become real. That grid is <strong>one token</strong>. A 500-word prompt is roughly 650 tokens, so the model is holding about <strong>2.7 million numbers</strong> just to represent what you typed &mdash; before it has done a single thing with it.</p>
     </div>
   </div>
   <div class="notes">
-    <p>Short slide. The job is to kill the intuition that there's a dictionary inside.</p>
-    <p>Line to use: <b>"If you went looking for the part of the model that knows what an apple is, there isn't one. There's a row number."</b></p>
+    <p>The point of this slide is <b>volume</b>. Let the grid land before you talk over it.</p>
+    <p>Beat 1: a handful of numbers &mdash; "so far, so boring."</p>
+    <p>Beat 2: the full grid. <b>"Every square is one number. That's four thousand and ninety-six numbers, for one word."</b> Pause there. This is the slide where the scale of the thing stops being abstract.</p>
+    <p>Beat 3 brings up the read-later block; you don't need to say any of it. If you want one line from it, use the 2.7 million.</p>
+    <p>If asked why 4,096: it's a design choice per model. Bigger means more capacity and more compute. GPT-3 used 12,288.</p>
   </div>
 </section>
 
-<section class="slide" id="s-embed" data-title="Embeddings" data-act="act 1 · numbers">
-  <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
-  <h2>That row is a list of coordinates.</h2>
-  <div class="tok-row" style="gap:4px;margin:4px 0">
-    <span class="tok" style="font-size:15px;padding:6px 8px">0.31<span class="id">dim 1</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px">-0.88<span class="id">dim 2</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px">0.02<span class="id">dim 3</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px">1.44<span class="id">dim 4</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px">-0.19<span class="id">dim 5</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px">0.67<span class="id">dim 6</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px;color:var(--faint)">&hellip;<span class="id">&nbsp;</span></span>
-    <span class="tok" style="font-size:15px;padding:6px 8px">-0.41<span class="id">dim 4096</span></span>
+<section class="slide" id="s-embed" data-title="What the numbers mean" data-act="act 1 · numbers">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
+    <div class="disclaimer">constructed demo &middot; projections computed live</div>
   </div>
-  <p class="lead" data-step="1">Thousands of numbers per token. Together they're an address &mdash; a position in a space with thousands of directions in it.</p>
-  <p class="lead" data-step="2">Nobody assigned those numbers. Nobody decided dimension 400 means <em>fruitness</em>. They fell out of training, and mostly they don't correspond to anything a human would name.</p>
-  <p class="small" data-step="3">But the <em>geometry</em> of that space turns out to mean something. That part we can look at.</p>
+  <h2 style="font-size:33px">So what does each number <em>mean</em>? On its own &mdash; nothing.</h2>
+  <p class="lead" data-step="1" style="font-size:22px;max-width:88ch">No single number is &ldquo;redness.&rdquo; But ask a different question &mdash; not <em>what does this number mean</em>, but <em>which directions through this space mean something</em> &mdash; and the answers are there.</p>
+  <div id="w-meaning"></div>
+  <div class="deeper" data-step="3">
+    <span class="mark">read later</span>
+    <div>
+      <p>A concept isn't stored in a dimension, it's stored as a <strong>direction</strong> &mdash; a blend of thousands of dimensions at once. Click a concept and watch which squares light up: scattered across the whole vector, never gathered anywhere.</p>
+      <p>That's what lets a model carry far more concepts than it has dimensions &mdash; in a space this big, a huge number of directions barely overlap, so concepts share the same numbers without interfering. It's called <strong>superposition</strong>, and it's the main reason you can't open a model up and read what it knows.</p>
+    </div>
+  </div>
   <div class="notes">
-    <p>Don't linger on the numbers themselves. The point is the shift from <b>symbol</b> to <b>position</b>.</p>
-    <p>Good line: <b>"The model doesn't have words. It has coordinates. Everything it appears to know about language is a fact about distance and direction in this space."</b></p>
+    <p><b>Correcting the obvious guess is the whole slide.</b> Most people assume dimension 400 is "redness". It isn't, and the truth is more interesting.</p>
+    <p>Beat 1: the reframe &mdash; stop asking what one number means, start asking which directions mean something.</p>
+    <p>Beat 2: the meters. <b>Click "food" and point at the grid</b> &mdash; the contributing squares are scattered everywhere. Then click "companies" and show it's a completely different scattering of the same squares.</p>
+    <p><b>Click "law, courts" too.</b> It reads flat. That's the control: these meters are measuring something, not just drawing bars.</p>
+    <p>Beat 3: the read-later block. Say one sentence from it &mdash; "concepts are directions, not slots" &mdash; and move on.</p>
+    <p><b>Land the last line out loud:</b> food and companies come back almost exactly tied. That's the slide-3 problem, in numbers, and it sets up the map.</p>
+    <p>Honesty if asked: these directions were constructed so the demo is deterministic. The projection maths recovering them is real, and the structure &mdash; concepts as directions spread across dimensions &mdash; is what interpretability research actually finds in real models.</p>
   </div>
 </section>
 
@@ -264,15 +253,24 @@
       <div><div class="pill tech-fg" style="border-color:rgba(110,141,224,.42);margin-bottom:10px">K &middot; the advert</div><p class="small">what every token offers</p></div>
       <div><div class="pill fruit-fg" style="border-color:rgba(79,179,156,.42);margin-bottom:10px">V &middot; the meaning</div><p class="small">what actually gets handed over</p></div>
     </div>
-    <div class="cols" style="gap:26px;width:100%" data-step="2">
+    <div class="cols-3" style="gap:22px;width:100%" data-step="2">
       <div><div class="pill" style="margin-bottom:10px">QK<sup>T</sup> &middot; compare</div><p class="small">multiply every question against every advert &mdash; one number per pair, saying how well they match</p></div>
+      <div><div class="pill" style="margin-bottom:10px">&radic;d &middot; keep the scale sane</div><p class="small">divide by the square root of the number of dimensions, so the match scores don't blow up just because the vectors are long</p></div>
       <div><div class="pill" style="margin-bottom:10px">softmax &middot; turn into shares</div><p class="small">squash those into percentages that add to 100. Attention is a fixed budget being divided up</p></div>
     </div>
   </div>
-  <p class="small" data-step="3" style="text-align:center;margin-top:6px">That's it. That's the formula the whole industry is built on. You won't see another one.</p>
+  <div class="deeper" data-step="3" style="margin-top:2px">
+    <span class="mark">on &radic;d</span>
+    <div>
+      <p>Those match scores are sums over thousands of dimensions, so they grow with the size of the vectors &mdash; a 4,096-dimensional model would produce numbers roughly 64&times; larger than a 1-dimensional one, for no meaningful reason.</p>
+      <p>That matters because of what comes next. <strong>Softmax is winner-take-all when the numbers are large:</strong> feed it 40 and 38 and the first one takes essentially all the attention, and everything else is ignored. Dividing by &radic;d holds the scores in a range where softmax still spreads attention across several tokens instead of collapsing onto one &mdash; which also keeps the thing trainable, since a collapsed softmax stops producing useful gradients.</p>
+      <p>It is, in other words, a unit-conversion step. Not a deep idea, but the mechanism doesn't work without it.</p>
+    </div>
+  </div>
   <div class="notes">
-    <p>Promise kept: this is the only formula. Say that out loud &mdash; the non-technical half of the room relaxes immediately.</p>
+    <p>Promise kept: this is the only formula. Say that out loud &mdash; the non-technical half of the room relaxes immediately. Add: <b>"and you already understand every piece of it, I just showed you all three."</b></p>
     <p><b>The idea to actually land is "fixed budget."</b> Softmax forces the weights to sum to one. Attention paid to one token is attention taken from another. That single fact is the entire basis of payoff slide #2, so plant it firmly here.</p>
+    <p><b>On &radic;d, say the short version out loud and leave the rest on screen:</b> "that's a unit conversion. The match scores get bigger just because the vectors are long, and if you let them get too big the softmax hands everything to one token and ignores the rest." That's enough. The read-later block has the trainability detail for anyone who wants it.</p>
     <p>If nobody in the room is technical, you can advance through this in fifteen seconds. Don't cut it &mdash; seeing the real formula and being told they already understand it is worth the time.</p>
   </div>
 </section>
@@ -329,63 +327,72 @@
   </div>
 </section>
 
-<section class="slide" id="s-stack" data-title="Stack it" data-act="act 2 · context">
+<section class="slide" id="s-stack" data-title="Stack it — the running notes" data-act="act 2 · context">
   <div class="eyebrow"><span class="tick"></span>act two &middot; context</div>
-  <h2>Then you stack that block. Again. And again.</h2>
-  <div style="display:flex;gap:46px;align-items:center;margin-top:4px">
-    <svg viewBox="0 0 360 352" width="360" height="352" role="img"
-         aria-label="A stack of transformer blocks, each reading from and writing back to a shared residual stream">
-      <!-- The residual stream: one continuous line the whole stack writes into. -->
-      <line x1="26" y1="8" x2="26" y2="322" stroke="#e9a33c" stroke-width="2.5" opacity="0.55"/>
-      <text x="26" y="344" class="svg-label" text-anchor="middle" fill="#e9a33c" style="font-size:12px">residual stream</text>
+  <h2 style="font-size:33px">One pass wasn't enough. So it does it again, and again, and keeps notes.</h2>
 
-      <g stroke="#e9a33c" stroke-width="1.4" opacity="0.6" fill="none">
-        <path d="M26 46 L84 46"/>
-        <path d="M294 46 L330 46 L330 86 L26 86"/>
-        <path d="M26 132 L84 132"/>
-        <path d="M294 132 L330 132 L330 172 L26 172"/>
+  <div style="display:flex;gap:40px;align-items:flex-start;margin-top:2px">
+    <svg viewBox="0 0 240 300" width="240" height="300" style="flex:none" role="img"
+         aria-label="A token's notes pass upward through repeated attention and feed-forward blocks, each one adding to them">
+      <defs>
+        <!-- orient="auto" aligns the marker's +x axis with the path direction,
+             so the arrow has to be drawn pointing along +x, not up the page. -->
+        <marker id="up" markerWidth="8" markerHeight="7" refX="7.5" refY="3.5" orient="auto">
+          <polygon points="0 0, 8 3.5, 0 7" fill="#e9a33c"/>
+        </marker>
+      </defs>
+
+      <text x="120" y="14" class="svg-label" text-anchor="middle" style="font-size:11px">the notes, richer each time</text>
+      <line x1="120" y1="34" x2="120" y2="24" stroke="#e9a33c" stroke-width="2" marker-end="url(#up)" opacity="0.8"/>
+
+      <g>
+        <rect x="30" y="40" width="180" height="42" fill="#151b26" stroke="#242d3d"/>
+        <text x="120" y="59" class="svg-label" text-anchor="middle" fill="#eceff5" style="font-size:12px">feed-forward</text>
+        <text x="120" y="74" class="svg-label" text-anchor="middle" style="font-size:10px">what does that tell me?</text>
+        <line x1="120" y1="96" x2="120" y2="84" stroke="#e9a33c" stroke-width="2" marker-end="url(#up)" opacity="0.8"/>
+
+        <rect x="30" y="102" width="180" height="42" fill="#151b26" stroke="#242d3d"/>
+        <text x="120" y="121" class="svg-label" text-anchor="middle" fill="#eceff5" style="font-size:12px">attention</text>
+        <text x="120" y="136" class="svg-label" text-anchor="middle" style="font-size:10px">what do the other words say?</text>
+        <line x1="120" y1="158" x2="120" y2="146" stroke="#e9a33c" stroke-width="2" marker-end="url(#up)" opacity="0.8"/>
       </g>
-      <!-- Where each block adds its result back in. -->
-      <g fill="#0a0d14" stroke="#e9a33c" stroke-width="1.4" opacity="0.8">
-        <circle cx="26" cy="86" r="5"/>
-        <circle cx="26" cy="172" r="5"/>
-      </g>
-      <g fill="#e9a33c" style="font-family:var(--mono);font-size:11px" text-anchor="middle">
-        <text x="26" y="90">+</text>
-        <text x="26" y="176">+</text>
-      </g>
 
-      <rect x="84" y="20" width="210" height="52" fill="#151b26" stroke="#242d3d"/>
-      <text x="98" y="43" class="svg-label" fill="#eceff5">attention</text>
-      <text x="98" y="61" class="svg-label" style="font-size:11px">read the other tokens</text>
-
-      <rect x="84" y="106" width="210" height="52" fill="#151b26" stroke="#242d3d"/>
-      <text x="98" y="129" class="svg-label" fill="#eceff5">feed-forward</text>
-      <text x="98" y="147" class="svg-label" style="font-size:11px">think about what you found</text>
-
-      <text x="189" y="206" class="svg-label" text-anchor="middle" fill="#7f8aa0">&#8942;</text>
-      <text x="189" y="230" class="svg-label" text-anchor="middle">&times; 32, 80, 120 &hellip;</text>
+      <text x="120" y="176" class="svg-label" text-anchor="middle" fill="#e9a33c" style="font-size:11px">&#8942;&nbsp; one block &nbsp;&#8942;</text>
 
       <g opacity="0.4">
-        <rect x="84" y="252" width="210" height="32" fill="#151b26" stroke="#242d3d"/>
-        <text x="98" y="273" class="svg-label" style="font-size:12px">attention</text>
-        <rect x="84" y="294" width="210" height="32" fill="#151b26" stroke="#242d3d"/>
-        <text x="98" y="315" class="svg-label" style="font-size:12px">feed-forward</text>
-        <g stroke="#e9a33c" stroke-width="1.4" opacity="0.6" fill="none">
-          <path d="M26 268 L84 268"/>
-          <path d="M26 310 L84 310"/>
-        </g>
+        <rect x="30" y="188" width="180" height="26" fill="#151b26" stroke="#242d3d"/>
+        <text x="120" y="205" class="svg-label" text-anchor="middle" style="font-size:11px">feed-forward</text>
+        <rect x="30" y="222" width="180" height="26" fill="#151b26" stroke="#242d3d"/>
+        <text x="120" y="239" class="svg-label" text-anchor="middle" style="font-size:11px">attention</text>
+        <line x1="120" y1="222" x2="120" y2="216" stroke="#e9a33c" stroke-width="2" opacity="0.8"/>
+        <line x1="120" y1="262" x2="120" y2="250" stroke="#e9a33c" stroke-width="2" marker-end="url(#up)" opacity="0.8"/>
       </g>
+
+      <text x="120" y="280" class="svg-label" text-anchor="middle" style="font-size:11px">the raw embedding</text>
+      <text x="120" y="296" class="svg-label" text-anchor="middle" fill="#7f8aa0" style="font-size:10px">&times; 32, 80, 120 blocks</text>
     </svg>
-    <div style="flex:1;display:flex;flex-direction:column;gap:20px">
-      <p class="lead" data-step="1" style="font-size:25px">That amber line is the token's running notebook. Every block reads it, adds a bit of understanding, and passes it up.</p>
-      <p class="small" data-step="2">Attention gathers information from other tokens. The feed-forward layer is where most of the model's stored knowledge lives &mdash; it's the bigger half by parameter count, and it's what's actually doing the &ldquo;thinking&rdquo; about what attention just dragged in.</p>
-      <p class="small" data-step="3">Do this eighty times and a coordinate that started out meaning <em>&ldquo;some kind of apple&rdquo;</em> ends up meaning <em>&ldquo;the company, in a sentence about a stock, being discussed approvingly, in the middle of a comparison.&rdquo;</em></p>
+
+    <div style="flex:1">
+      <div class="eyebrow" style="margin-bottom:14px"><span class="tick"></span>what the notes on <span class="mono amber" style="letter-spacing:0">apple</span> actually say</div>
+      <div id="w-residual"></div>
     </div>
   </div>
+
+  <div class="deeper" data-step="6">
+    <span class="mark">read later</span>
+    <div>
+      <p>The two halves of a block do different jobs. <strong>Attention gathers</strong> &mdash; it goes and fetches whatever the other words in the sentence have to offer. <strong>The feed-forward layer thinks</strong> &mdash; it takes what was just gathered and works out what follows from it, and it's where most of the model's stored knowledge lives, holding roughly two-thirds of all its parameters.</p>
+      <p>Crucially, no block ever throws the notes away. Each one <em>adds</em> to what's already there, so the original word is still in the mix at layer eighty. That running total has a name &mdash; the <strong>residual stream</strong> &mdash; and it's why a deep model refines a meaning rather than losing it.</p>
+    </div>
+  </div>
+
   <div class="notes">
-    <p>The residual stream as a <b>running notebook</b> is the metaphor to lean on. Each layer doesn't replace the meaning, it annotates it.</p>
-    <p>Worth saying: people assume attention is where the knowledge is. It isn't &mdash; attention is the <em>routing</em>. The feed-forward layers hold most of the parameters and most of what the model actually knows.</p>
+    <p><b>This is the slide people get lost on, so lead with the notes and treat the diagram as wallpaper.</b> Don't say "residual stream" out loud. Say "notes".</p>
+    <p>Set it up from the last slide: <b>"one layer only nudged the meaning. So what's actually happening in the other seventy-nine?"</b></p>
+    <p>Then step through the notes one press at a time and just read them. The list <em>is</em> the explanation:</p>
+    <p>&mdash; it starts knowing nothing<br>&mdash; attention finds it got picked<br>&mdash; the feed-forward works out what that implies<br>&mdash; a later block notices the orchard<br>&mdash; and by the end the meaning is fully specific</p>
+    <p>Point at the diagram once, at the arrow: <b>"and the notes only ever go up. Nothing gets thrown away &mdash; each block adds to what's already written."</b> That's all the diagram needs to do.</p>
+    <p>Last beat brings up the read-later block. The one line worth saying out loud: <b>attention gathers, the feed-forward thinks, and the feed-forward is where most of the parameters actually are.</b> People assume the knowledge is in attention. It isn't.</p>
   </div>
 </section>
 
@@ -479,35 +486,68 @@
   </div>
 </section>
 
-<section class="slide is-payoff" id="s-payoff-fail" data-title="SO WHAT — the failure modes" data-act="payoff">
-  <div class="payoff-head">so what &mdash; #3</div>
-  <h1 style="max-width:25ch">Every famous failure is this same machine working exactly as described.</h1>
-  <div class="cols" data-step="1" style="gap:32px;margin-top:2px">
-    <div style="display:flex;flex-direction:column;gap:18px">
-      <div>
-        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it made something up</div>
-        <p class="small">It always returns the most plausible continuation. When the evidence is thin, the most plausible continuation is a <em>confident fabrication</em> &mdash; there is no separate step where it checks. <strong>So: ask for sources and check them. Never ask it for a fact only a database could know.</strong></p>
-      </div>
-      <div>
-        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it sounded certain and was wrong</div>
-        <p class="small">Confidence is stage-three style, not stage-one knowledge. Tone carries <em>zero</em> information about accuracy. <strong>So: stop reading fluency as competence.</strong></p>
-      </div>
+<section class="slide is-payoff" id="s-payoff-fail" data-title="SO WHAT — you've seen this happen" data-act="payoff">
+  <div class="payoff-head">so what &mdash; #3 &middot; part one</div>
+  <h1 style="max-width:24ch;font-size:46px">You've hit at least one of these. Probably this week.</h1>
+  <div class="cols-3" data-step="1" style="gap:20px;margin-top:4px">
+    <div class="panel" style="border-top:3px solid var(--warn);padding:20px 22px">
+      <div class="said" style="font-size:26px;line-height:1.25">&ldquo;It made that up.&rdquo;</div>
+      <p class="small" style="margin-top:14px">A citation that doesn't exist. A statistic nobody can source. A policy it was very sure about.</p>
     </div>
-    <div style="display:flex;flex-direction:column;gap:18px">
-      <div>
-        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it just agreed with me</div>
-        <p class="small">Agreement got rated highly by humans, so agreement got reinforced. <strong>So: never ask &ldquo;is this good?&rdquo; Ask &ldquo;what's the strongest argument this is wrong?&rdquo;</strong> You have to explicitly buy the criticism back.</p>
-      </div>
-      <div>
-        <div class="pill warn-fg" style="border-color:rgba(224,112,92,.42);margin-bottom:10px">it forgot / it didn't know</div>
-        <p class="small">No memory between conversations, and a hard training cutoff. <strong>So: assume every chat starts from nothing, and paste in anything recent or internal.</strong></p>
-      </div>
+    <div class="panel" style="border-top:3px solid var(--warn);padding:20px 22px">
+      <div class="said" style="font-size:26px;line-height:1.25">&ldquo;It just agreed with me.&rdquo;</div>
+      <p class="small" style="margin-top:14px">You asked if your plan was any good. It said yes, warmly, at length. It would have said yes to the opposite plan.</p>
+    </div>
+    <div class="panel" style="border-top:3px solid var(--warn);padding:20px 22px">
+      <div class="said" style="font-size:26px;line-height:1.25">&ldquo;It ignored what I told it.&rdquo;</div>
+      <p class="small" style="margin-top:14px">You set a rule at the top of the chat. Forty messages later it's quietly gone.</p>
     </div>
   </div>
+  <p class="lead" data-step="2" style="font-size:25px;margin-top:8px">None of these are bugs somebody forgot to fix. Every one falls out of a design decision you have already seen this morning.</p>
   <div class="notes">
-    <p>Frame it up front: <b>"none of these are bugs somebody forgot to fix. Every one of them falls out of a design decision I've already shown you."</b></p>
-    <p>The sycophancy one lands hardest with anyone using it for review or feedback. Give them the exact replacement phrasing &mdash; "what's the strongest argument this is wrong" &mdash; and tell them to steal it.</p>
-    <p>Don't be cynical here. The framing is <b>"knowing the failure mode is what lets you use it hard"</b>, not "it's unreliable, be careful."</p>
+    <p><b>Diagnosis slide. Don't give any fixes yet</b> &mdash; that's the next one, and the pause between them is what makes the fixes land.</p>
+    <p>Read the three quotes out loud and <b>ask for a show of hands</b> on each. You'll get hands on all three. That's the point: this is a shared experience in the room, not a personal failing.</p>
+    <p>Then the last line, and advance. Do not start explaining here.</p>
+    <p>If someone volunteers a fourth ("it didn't know about our internal docs") &mdash; good, take it, and note it falls out of the training slide: no memory between chats, hard cutoff, never saw your company's files.</p>
+  </div>
+</section>
+
+<section class="slide is-payoff" id="s-payoff-fix" data-title="SO WHAT — the same machine, and the fix" data-act="payoff" style="gap:15px">
+  <div class="payoff-head">so what &mdash; #3 &middot; part two</div>
+  <h1 style="max-width:44ch;font-size:32px">Same machine. Here's the cause, and what to do instead.</h1>
+
+  <div style="display:grid;grid-template-columns:1fr 1.15fr 1.25fr;gap:0;border:1px solid var(--line)">
+    <div class="fix-hd">the symptom</div>
+    <div class="fix-hd">why it happens</div>
+    <div class="fix-hd" style="color:var(--fruit)">do this instead</div>
+
+    <div class="fix-cell" data-step="1"><span class="said" style="font-size:21px">&ldquo;It made that up.&rdquo;</span></div>
+    <div class="fix-cell" data-step="1"><p class="small">It returns the <em>most plausible</em> continuation. With thin evidence, that's a confident invention &mdash; and there's no step where it checks.</p></div>
+    <div class="fix-cell" data-step="1"><p class="small"><strong>Give it the source instead of asking it to recall one.</strong> Paste the document. Ask for citations you can click.</p></div>
+
+    <div class="fix-cell" data-step="2"><span class="said" style="font-size:21px">&ldquo;It just agreed with me.&rdquo;</span></div>
+    <div class="fix-cell" data-step="2"><p class="small">Stage three trained it on <em>which answers humans preferred</em>. People prefer being agreed with. Same source as the confident tone.</p></div>
+    <div class="fix-cell" data-step="2"><p class="small"><strong>Never ask &ldquo;is this good?&rdquo;</strong> Ask <em>&ldquo;what's the strongest argument this is wrong?&rdquo;</em> Buy the criticism back explicitly.</p></div>
+
+    <div class="fix-cell" data-step="3" style="border-bottom:0"><span class="said" style="font-size:21px">&ldquo;It ignored what I told it.&rdquo;</span></div>
+    <div class="fix-cell" data-step="3" style="border-bottom:0"><p class="small">Attention is a fixed budget. An instruction from forty messages ago is competing with everything since, and losing.</p></div>
+    <div class="fix-cell" data-step="3" style="border-bottom:0"><p class="small"><strong>Restate it near the end, or start fresh.</strong> Don't trust a rule to survive a long thread because you said it once.</p></div>
+  </div>
+
+  <div class="deeper" data-step="4">
+    <span class="mark">read later</span>
+    <div>
+      <p><strong>Fluency carries no information about accuracy.</strong> The confident, agreeable voice is a trained style from stage three; whether the content is true was settled in stage one, and the two were never connected. Right and wrong answers arrive in exactly the same tone.</p>
+      <p>So it isn't unreliable so much as <em>reliable in a shape you have to learn</em>: strong wherever plausible and correct coincide &mdash; drafting, restructuring, explaining, arguing the other side &mdash; and weakest exactly where they come apart: specific facts, precise figures, anything recent or internal.</p>
+    </div>
+  </div>
+
+  <div class="notes">
+    <p>Now you pay off the pause. <b>One row per press</b>, and read across the row: symptom, cause, fix.</p>
+    <p>Every cause here is a callback &mdash; say which slide it came from. Row 1 is the prediction slide. Row 2 is the training-stages slide. Row 3 is the fixed-budget slide. That's the moment the whole talk clicks into place as one thing rather than a tour.</p>
+    <p><b>Row 2 is the one people act on.</b> Give them the exact phrasing and tell them to steal it: <em>"what's the strongest argument this is wrong?"</em> Anyone using this for review or feedback should write it down.</p>
+    <p>Last press brings up the read-later block. Say only the first sentence out loud: <b>"fluency carries no information about accuracy."</b> Leave the rest for them.</p>
+    <p><b>Tone check:</b> the framing is "knowing the failure mode is what lets you use it hard", not "be careful, it's unreliable". Don't end this slide sounding cynical &mdash; the playbook is next and it's constructive.</p>
   </div>
 </section>
 
@@ -592,6 +632,7 @@
 <script src="js/tokenizer-engine.js"></script>
 <script src="js/attention-math.js"></script>
 <script src="js/widgets/room.js"></script>
+<script src="js/widgets/embedding.js"></script>
 <script src="js/widgets/tokenizer.js"></script>
 <script src="js/widgets/space.js"></script>
 <script src="js/widgets/attention.js"></script>

@@ -37,16 +37,22 @@ what to cut if you're running long, and answers to the questions you'll get.
 
 ## Interactive bits
 
-Five slides are live, not animations. Drive them.
+Nine slides are live, not animations. Drive them.
 
 | Slide | What you can do |
 |---|---|
-| 07 Tokenization | Type any sentence, see the real GPT-2 split and token IDs |
-| 10 The map | Watch `apple` land stranded between two clusters |
-| 15 Attention | Click any token to see what it looks back at |
-| 16 The vector moves | Run one layer at a time and watch meaning resolve |
-| 20 Next token | Compare contexts, drag the temperature slider |
-| 22 How it learns | Real gradient descent, running live |
+| 06 Tokenization | Type any sentence, see the real GPT-2 split and token IDs |
+| 07 One token, 4,096 numbers | Watch a single token's whole vector appear |
+| 08 What the numbers mean | Click a concept, see which dimensions carry it |
+| 09 The map | Watch `apple` land stranded between two clusters |
+| 14 Attention | Click any token to see what it looks back at |
+| 15 The vector moves | Run one layer at a time and watch meaning resolve |
+| 17 Running notes | Step through what the token means after each block |
+| 19 Next token | Compare contexts, drag the temperature slider |
+| 21 How it learns | Real gradient descent, running live |
+
+Several slides also carry a quieter **read later** block at the bottom. Those
+aren't meant to be read aloud — they're for whoever opens the deck afterwards.
 
 ## What's real and what's schematic
 
@@ -61,6 +67,14 @@ labelled as such on the slide itself.
   thousands of learned ones, so the axes mean something you can point at.
 - **Gradient descent — real.** The weights start as noise, the loss is measured
   from the run, the curve is not drawn.
+- **Concept directions — constructed, projections real.** On slide 8 the named
+  directions (food, companies, colour…) were built deliberately, so the demo is
+  deterministic and identical every time you present. The projection maths that
+  reads those weights back out of a 4,096-dimensional vector is real, and it
+  works *because* random directions in a space that big are nearly orthogonal —
+  which is the superposition point the slide is making, running live rather than
+  asserted. A concept the word doesn't carry ("law, courts") correctly reads as
+  flat, which is the control.
 - **Embedding map positions — hand-placed.** A true projection of real
   embeddings down to 2D is an unreadable blob. The structure shown (clusters,
   and the king/queen parallelogram) is a real documented property.
@@ -107,7 +121,7 @@ css/fonts.css           GENERATED — fonts as base64 data URIs
 js/deck.js              navigation, builds, presenter overlay, slide grid
 js/tokenizer-engine.js  GPT-2 byte-level BPE
 js/attention-math.js    softmax(QKᵀ/√d)V with causal masking
-js/widgets/             the six live slides
+js/widgets/             the live slides
 data/bpe.js             GENERATED — GPT-2 vocab + merges
 data/vectors.js         hand-authored embeddings and map positions
 tools/fetch-vocab.mjs   rebuilds data/bpe.js

@@ -308,6 +308,55 @@ ul.clean li::before {
   color: var(--muted);
 }
 
+/* Concept meters on the embedding slide — clickable rows, not just bars. */
+.concept-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 14px;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-left: 2px solid var(--line-soft);
+  padding: 7px 10px;
+  cursor: pointer;
+  color: var(--text-dim);
+  text-align: left;
+  transition: background 160ms, border-color 160ms, color 160ms;
+}
+
+.concept-row:hover { color: var(--text); border-left-color: var(--faint); }
+.concept-row.on { background: var(--amber-soft); border-left-color: var(--amber); color: var(--text); }
+.concept-row:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* --- "Read it later" blocks ---------------------------------------------
+   Slides carry two registers: the big beats you say out loud, and a denser
+   passage underneath for whoever wants to sit with the deck afterwards. The
+   quieter treatment is what keeps the second register from competing with the
+   first from the back of the room. */
+
+.deeper {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.deeper > .mark {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding-top: 3px;
+}
+
+.deeper p { font-size: 16px; line-height: 1.55; color: var(--muted); max-width: 84ch; }
+.deeper p + p { margin-top: 8px; }
+.deeper em { color: var(--text-dim); }
+.deeper strong { color: var(--text-dim); font-weight: 600; }
+
 /* --- The "so what" payoff slides ---------------------------------------- */
 /* Deliberately a different world: amber rail, lifted ground. The room learns
    within two occurrences that this is the part they can use tomorrow. */
@@ -330,6 +379,27 @@ ul.clean li::before {
 }
 
 .rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* symptom / cause / fix grid on the failure-modes slide */
+.fix-hd {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 11px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.fix-cell {
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line-soft);
+  display: flex;
+  align-items: center;
+}
+
+.fix-cell p { margin: 0; }
 
 /* Do / Don't pairs on payoff slides */
 .swap { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); }

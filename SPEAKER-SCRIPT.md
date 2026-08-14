@@ -8,8 +8,8 @@ the talk to toggle the presenter overlay.
 - Open `index.html` (double-click it — no server, no wifi needed).
 - Press **F** for fullscreen.
 - Press **Esc** once to check the slide grid loads, then **Esc** again.
-- Rehearse slides 15, 16 and 20 at least once. They're the three you *drive*,
-  and they're the three people will ask you to go back to.
+- Rehearse slides 8, 14, 15 and 19 at least once. Those are the ones you
+  *drive*, and they're the ones people ask you to go back to.
 - Have a browser tab with your team's actual AI tool open, in case Q&A goes
   practical.
 
@@ -17,7 +17,15 @@ the talk to toggle the presenter overlay.
 `S` notes · `F` fullscreen · `Esc` slide grid · `?` help
 
 A clicker works — it sends arrow keys. Clicking anywhere on the slide also
-advances, except on the widget controls.
+advances, except on widget controls.
+
+## Two registers on a slide
+
+Several slides carry a **read later** block at the bottom, set quieter and
+smaller. That's deliberate: the big type is what you say out loud, the read-later
+block is for whoever opens the deck afterwards. **Don't read those blocks to the
+room.** Bring them up on the last build, say the one sentence flagged in the
+notes, and move on.
 
 ---
 
@@ -25,20 +33,20 @@ advances, except on the widget controls.
 
 | Section | Slides | Target | Running |
 |---|---|---|---|
-| Open + the hook | 1–6 | 5 min | 5 |
-| Act 1 · words become numbers | 7–11 | 6 min | 11 |
-| Act 2 · context | 12–19 | 10 min | 21 |
-| Act 3 · prediction, learning, limits | 20–24 | 7 min | 28 |
-| Close | 25–26 | 2 min | 30 |
+| Open + the hook | 1–5 | 5 min | 5 |
+| Act 1 · words become numbers | 6–10 | 7 min | 12 |
+| Act 2 · context | 11–18 | 10 min | 22 |
+| Act 3 · prediction, learning, limits | 19–22 | 5 min | 27 |
+| The failure modes + close | 23–26 | 3 min | 30 |
 
-**If you're running long**, cut slide 12 (order matters) and slide 17
-(multi-head) — both are one-minute asides. Never cut 16 or 19.
+**If you're running long**, cut slide 11 (order matters) and slide 16
+(multi-head) — both are one-minute asides. Never cut 15, 18 or 24.
 
-**If you're running short**, slow down on 15 and click more tokens.
+**If you're running short**, slow down on 14 and click more tokens.
 
 ---
 
-## Act 0 — The hook (slides 1–6)
+## Act 0 — The hook (slides 1–5)
 
 ### 1. Title
 Open plainly. Don't oversell. The promise is small and concrete: *thirty
@@ -79,20 +87,16 @@ Then: **"I think you know where I'm going with this."** Beat. Advance.
 ### 5. context.
 Hard cut. Say the word once, flat. Let it sit. If the room laughed: *"Surprise."*
 
-Nothing else. Resist adding anything.
-
-### 6. Thesis
-The hinge. The promise: **the thing you just did instinctively is literally
-what the machine does.**
-
-The last line sets up the payoff slides — from here on, every amber-barred
-slide means *this is the part I use tomorrow.*
+**Then press once more** for the bridge line — *you did that in half a second
+without noticing, and it's also the entire architecture.* That line is carrying
+the job a whole slide used to do, so deliver it and move. The next thing out of
+your mouth is *"let me show you the machine that does it."*
 
 ---
 
-## Act 1 — Words become numbers (slides 7–11)
+## Act 1 — Words become numbers (slides 6–10)
 
-### 7. Tokenization (live)
+### 6. Tokenization (live)
 Real GPT-2 tokenizer. Real IDs. Type whatever the room shouts.
 
 Three things, in order:
@@ -103,38 +107,65 @@ Three things, in order:
    different tokens with three different IDs. The middot is the space. This
    surprises people.
 3. **Hit `strawberry`.** It comes apart as `st / raw / berry`. **Park it** —
-   you're coming back in two slides.
+   you're coming back in four slides.
 
 If asked: modern models have bigger vocabularies, same mechanism.
 
-### 8. A token is a row number
-Short. Kill the intuition that there's a dictionary inside.
+### 7. One token, 4,096 numbers ★
+**The point of this slide is volume.** Let the grid land before you talk over it.
 
-> "If you went looking for the part of the model that knows what an apple is,
-> there isn't one. There's a row number."
+- **Beat 1:** a handful of numbers. "So far, so boring."
+- **Beat 2:** the full grid. **"Every square is one number. That's four thousand
+  and ninety-six numbers, for one word."** Pause. This is where the scale of the
+  thing stops being abstract.
+- **Beat 3:** the read-later block. Don't read it. If you want one line, use
+  **2.7 million numbers just to hold a 500-word prompt.**
 
-### 9. Embeddings
-Don't linger on the digits. The point is the shift from **symbol** to **position**.
+If asked why 4,096: it's a per-model design choice. Bigger means more capacity
+and more compute. GPT-3 used 12,288.
 
-> "The model doesn't have words. It has coordinates. Everything it appears to
-> know about language is a fact about distance and direction in this space."
+### 8. What the numbers mean ★ *drive this one*
+**Correcting the obvious guess is the whole slide.** Almost everyone assumes
+dimension 400 is "redness". It isn't, and the truth is more interesting.
 
-### 10. The map ★
+- **Beat 1:** the reframe. Stop asking what one number means; start asking which
+  *directions* mean something.
+- **Beat 2:** the meters. **Click "food, eating" and point at the grid** — the
+  contributing squares are scattered everywhere. Then click "companies,
+  business": a completely different scattering of the *same* squares.
+- **Click "law, courts" too.** It reads flat. That's your control — these meters
+  are measuring something, not just drawing bars. Worth doing; it's what makes
+  the rest of the slide credible.
+- **Beat 3:** the read-later block. One sentence out loud: *"a concept isn't a
+  slot, it's a direction — and that's why you can't open a model up and read
+  what it knows."*
+
+**Then land the punchline out loud:** food and companies come back almost
+exactly tied. **"That's the question I asked you on slide three, in numbers.
+The word arrives carrying both and nothing in it picks a side."** That sets up
+the map.
+
+Honesty if asked: these directions were constructed so the demo is deterministic
+and the same every time. The projection maths recovering them is real, and the
+structure — concepts as directions spread across dimensions, packed so they
+barely overlap — is what interpretability research actually finds in real models.
+The word for it is superposition.
+
+### 9. The map ★
 Three beats, three presses.
 
 - **Beat 1:** nothing sorted these. Words used in similar company drifted together.
 - **Beat 2 (arrows):** man→king and woman→queen are the same move. *"Nobody
   programmed that. It's a side effect of how the words were used."*
-- **Beat 3 — the money beat of Act 1.** Point at the dot in the middle.
-  **"This is the slide-three problem, drawn. Half of you said fruit, half said
-  the company — and the model has exactly the same problem, for exactly the same
-  reason. The word alone isn't enough."**
+- **Beat 3:** point at the dot in the middle. **"Same thing you just saw in the
+  meters, drawn as a picture. It belongs to both neighbourhoods, so it sits in
+  neither."**
 
-If asked about honesty: the positions are hand-placed so it's readable. A real
-projection of 4096 dimensions to two is an unreadable smear. The *structure* —
-clusters, and that parallelogram — is real.
+If asked: positions are hand-placed so it's readable. A real projection of 4,096
+dimensions to two is an unreadable smear. The *structure* — clusters, and that
+parallelogram — is real.
 
-### 11. SO WHAT #1 — words are coordinates
+### 10. SO WHAT #1 — words are coordinates
 **Teach the room the pattern:** *"every so often I'm going to stop and tell you
 what this actually buys you. This is the first one."*
 
@@ -146,31 +177,38 @@ letters. You'd be bad at counting letters too if you only ever saw syllables."**
 
 ---
 
-## Act 2 — Context (slides 12–19) · *the core*
+## Act 2 — Context (slides 11–18) · *the core*
 
-### 12. Order matters
+### 11. Order matters
 Thirty seconds. Exists so nobody derails Q&A asking how it knows word order.
 Don't say "positional encoding" unless asked.
 
-### 13. The idea of attention
+### 12. The idea of attention
 Query / key / value without the vocabulary. Only name them if an engineer asks.
 
 **"Simultaneously" is the load-bearing word** — it's why this architecture won.
 Older models had to walk the sentence one word at a time.
 
-### 14. The formula, once
-Say out loud that this is the only formula in the talk. The non-technical half
-of the room visibly relaxes.
+### 13. The formula, once
+Say out loud that this is the only formula in the talk — the non-technical half
+of the room visibly relaxes. Then: **"and you already understand every piece of
+it. I just showed you all three."**
 
 **The idea to land is "fixed budget."** Softmax forces the weights to sum to
 one, so attention paid to one token is attention taken from another. That single
-fact is the entire basis of slide 19 — plant it firmly here.
+fact is the entire basis of slide 18 — plant it firmly here.
 
-If the room isn't technical you can move through this in fifteen seconds. Don't
+**On √d, say the short version and leave the rest on screen:** *"that's a unit
+conversion. Those match scores get bigger just because the vectors are long, and
+if you let them get too big, softmax hands everything to one token and ignores
+the rest."* That's enough. The read-later block has the trainability detail for
+anyone who wants it.
+
+If the room isn't technical you can move through this in twenty seconds. Don't
 cut it: seeing the real formula and being told they already understand it is
 worth the time.
 
-### 15. Attention (live) ★ *drive this one*
+### 14. Attention (live) ★ *drive this one*
 Start on **orchard**. `apple` is already selected — arcs go to `orchard`,
 `ripe`, `picked`.
 
@@ -179,14 +217,14 @@ changed."**
 
 **Point out the greyed tokens.** A token can only look *backwards*. Not a
 simplification — that's how these models work, and it's why they generate one
-word at a time. You'll cash that in on slide 21.
+word at a time. You'll cash that in on slide 20.
 
 The grey self-loop is the token attending to itself: real, usually the largest
 single weight, not the interesting part. Say so before someone asks.
 
 Click other tokens if the room is engaged. `bought` → `I` is a nice one.
 
-### 16. The vector moves ★★ *the slide the whole talk exists for*
+### 15. The vector moves ★★ *the slide the whole talk exists for*
 **Do not rush this.**
 
 Set it up: *"Remember the dot stuck in the middle? Watch what context does to it."*
@@ -202,26 +240,42 @@ it does."*
 
 **Second lesson:** it took six layers, not one. One layer only nudges. This is
 the honest answer to "why are these models so deep" — depth is how a nudge
-becomes a decision.
+becomes a decision. It also sets up slide 17, so don't skip it.
 
-Honesty note if asked: map positions are hand-placed, but the *path* is
-computed — real attention arithmetic, and the dot goes where it says.
+Honesty if asked: map positions are hand-placed, but the *path* is computed —
+real attention arithmetic, and the dot goes where it says.
 
-### 17. Multi-head
+### 16. Multi-head
 One minute. Takeaway: **parallel specialists, not one mechanism.**
 
 "Nobody assigned them those jobs" is the first hint of the training slide's
 bigger point: this structure is *discovered*, not designed.
 
-### 18. Stack it
-The residual stream as a **running notebook** — each layer annotates rather than
-replaces.
+### 17. Stack it — the running notes
+**This is the slide people used to get lost on, so lead with the notes and treat
+the diagram as wallpaper. Don't say "residual stream" out loud. Say "notes".**
 
-Worth saying: people assume attention holds the knowledge. It doesn't —
-attention is the *routing*. The feed-forward layers hold most of the parameters
-and most of what the model knows.
+Set it up from the last slide: *"one layer only nudged the meaning. So what's
+happening in the other seventy-nine?"*
 
-### 19. SO WHAT #2 — the context window ★★ *the most useful slide*
+Then step through the notes one press at a time and just read them. **The list
+is the explanation:**
+
+- it starts knowing nothing
+- attention finds that it got picked
+- the feed-forward works out what that implies
+- a later block notices the orchard
+- and by the end the meaning is completely specific
+
+Point at the diagram **once**, at the arrow: *"and the notes only ever go up.
+Nothing gets thrown away — each block adds to what's already written."* That's
+all the diagram needs to do.
+
+Last beat brings up the read-later block. The one line worth saying: **attention
+gathers, the feed-forward thinks, and the feed-forward is where most of the
+parameters actually are.** People assume the knowledge is in attention. It isn't.
+
+### 18. SO WHAT #2 — the context window ★★ *the most useful slide*
 **Say it: "if you take one slide away, make it this one."** Then pause for photos.
 
 Tie every bullet back to the fixed budget — that's what makes this different
@@ -232,9 +286,9 @@ feel vaguely superstitious about it. **Tell them they were right.**
 
 ---
 
-## Act 3 — Prediction, learning, limits (slides 20–24)
+## Act 3 — Prediction, learning, limits (slides 19–22)
 
-### 20. Next token (live)
+### 19. Next token (live)
 Frame it: *"a hundred billion parameters, eighty layers, and the output is a
 ranked list of a hundred thousand guesses at the next word."*
 
@@ -249,19 +303,19 @@ the nonsense at the bottom starts getting real probability.
 
 Low for anything factual or code. Higher when you want options and you'll pick.
 
-### 21. The loop
+### 20. The loop
 Let it play — the rhythm does the work.
 
 > "There is no plan. There is no outline it's working from. Every word you have
 > ever seen it produce was chosen with no knowledge of the word that came after."
 
-Callback: the backwards-only mask from slide 15 is what makes this loop possible.
+Callback: the backwards-only mask from slide 14 is what makes this loop possible.
 
 **The practical hook:** if it can only think by producing tokens, then giving it
 room to produce tokens before answering — *"think it through step by step"* — is
 literally giving it more computation. Not a trick. The architecture.
 
-### 22. How it learns
+### 21. How it learns
 Let the grid run while you talk. Noise → an apple, and **nothing in the code
 knows what an apple is.** It only ever knew "you were wrong by this much."
 
@@ -274,25 +328,60 @@ time, for months."*
 **Land this:** grammar, facts, tone, some reasoning — none of it was programmed.
 All of it is a side effect of getting better at guessing the next word. That's
 why it's uneven: good where the data was thick, shaky where it wasn't. And it's
-why there's a cutoff date.
+why there's a cutoff date, and why it has never seen anything internal to your
+company.
 
-### 23. Then it's taught to be useful
+### 22. Then it's taught to be useful
 Ninety seconds. One thing to leave with: **the confident, agreeable,
 well-organised voice is a trained style, and it is uncorrelated with accuracy.**
 
 > "It was rewarded for producing answers people liked. Nobody was checking, at
 > that stage, whether the answers were true."
 
-### 24. SO WHAT #3 — the failure modes
-Frame up front: *"none of these are bugs somebody forgot to fix. Every one falls
-out of a design decision I've already shown you."*
+This is the setup for the next two slides. Don't over-explain here.
 
-The sycophancy point lands hardest with anyone using it for review or feedback.
-Give them the exact replacement phrasing — **"what's the strongest argument this
-is wrong?"** — and tell them to steal it.
+---
 
-Don't be cynical. The framing is **"knowing the failure mode is what lets you use
-it hard"**, not "it's unreliable, be careful."
+## The failure modes (slides 23–24)
+
+### 23. You've seen this happen — *diagnosis only*
+**Give no fixes on this slide.** The pause between diagnosis and prescription is
+what makes the fixes land.
+
+Read the three quotes out loud and **ask for a show of hands** on each:
+
+- *"It made that up."*
+- *"It just agreed with me."*
+- *"It ignored what I told it."*
+
+You'll get hands on all three. That's the point — this is a shared experience in
+the room, not anyone's personal failing.
+
+Then the last line — *none of these are bugs somebody forgot to fix* — and
+advance. **Do not start explaining here.**
+
+If someone volunteers a fourth ("it didn't know about our internal docs"), take
+it, and note it falls straight out of slide 21: hard cutoff, no memory between
+chats, never saw your company's files.
+
+### 24. Same machine, and the fix
+Now you pay off the pause. **One row per press**, read across: symptom, cause, fix.
+
+**Every cause is a callback — say which slide it came from.** Row 1 is the
+prediction slide. Row 2 is the training-stages slide. Row 3 is the fixed-budget
+slide. This is the moment the whole talk clicks into place as one thing rather
+than a tour, so name the slides out loud.
+
+**Row 2 is the one people act on.** Give them the exact phrasing and tell them to
+steal it: *"what's the strongest argument this is wrong?"* Anyone using this for
+review or feedback should write it down.
+
+Last press brings up the read-later block. Say only the first sentence:
+**"fluency carries no information about accuracy."** Leave the rest for them.
+
+**Tone check:** the framing is "knowing the failure mode is what lets you use it
+hard", not "be careful, it's unreliable." Don't end sounding cynical — the
+playbook is next and it's constructive.
 
 ---
 
@@ -303,7 +392,8 @@ it hard"**, not "it's unreliable, be careful."
 seconds. Let them.
 
 Don't read all seven — you've earned every one already. Pick the two that fit
-your team and say those. Offer to send the deck round; everything is clickable.
+your team and say those. Offer to send the deck round; everything is clickable,
+and the read-later blocks are there for anyone who wants to go deeper.
 
 ### 26. Back to apple
 Same word, same black, where you started.
@@ -311,7 +401,7 @@ Same word, same black, where you started.
 Land the two lines and stop. **Don't add a summary** — slide 25 was the summary.
 
 Then: *"Questions."* Press **Esc** for the grid to jump back to anything they
-ask about. Slides 15 and 16 are the two people want to see again.
+ask about. Slides 14 and 15 are the two people want to see again.
 
 ---
 
@@ -322,6 +412,14 @@ Same architecture. The tokenizer in the deck is literally GPT-2's because it's
 public and small enough to ship. Current models are bigger — more layers, more
 dimensions, bigger vocabularies — plus extra training stages. The mechanism on
 these slides is the mechanism.
+
+**"So is dimension 400 'redness' or not?"**
+No. Concepts are directions, not slots — that's slide 8. And because a
+4,096-dimensional space can hold far more nearly-perpendicular directions than
+it has dimensions, models pack many more concepts in than you'd expect. If
+someone wants the term: superposition. If they want to go further, the search
+term is "sparse autoencoders" — that's the tooling researchers use to pull these
+directions out of real models.
 
 **"Does it understand, or is it just statistics?"**
 Don't take a side — it's a genuinely open argument and taking a side costs you
@@ -335,7 +433,7 @@ what it's structurally good and bad at"* — meaning vs. characters, plausible v
 verified — *"and that's the shape of what to hand it."*
 
 **"How do I stop it making things up?"**
-You can't, structurally — slide 24. You can reduce it: give it the source
+You can't, structurally — slide 24, row 1. You can reduce it: give it the source
 material rather than relying on training data, ask for citations you can check,
 lower the temperature, and ask it to flag what it isn't sure about.
 
@@ -345,5 +443,5 @@ pattern-matching over those fragments, not calculating. Which is why the good
 tools now hand arithmetic to an actual calculator.
 
 **"What's a context window, exactly?"**
-How many tokens it can look at in one go, question and answer together. Slide 19
+How many tokens it can look at in one go, question and answer together. Slide 18
 is the practical consequence. Numbers change constantly — don't quote one.
