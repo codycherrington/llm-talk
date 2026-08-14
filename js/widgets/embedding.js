@@ -119,6 +119,14 @@
     var max = 0, i;
     for (i = 0; i < DIMS; i++) max = Math.max(max, Math.abs(v[i]));
 
+    /* Every cell below is drawn with a semi-transparent fill, and canvas fills
+       composite over whatever is already there. Without wiping first, each
+       repaint layers onto the last one and the grid creeps darker and muddier
+       with every click. */
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "#0a0d14";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
     for (i = 0; i < DIMS; i++) {
       var x = (i % SIDE) * cell;
       var y = Math.floor(i / SIDE) * cell;

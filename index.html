@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Apple Problem</title>
+<title>How LLMs Actually Work</title>
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/deck.css">
 </head>
@@ -18,26 +18,13 @@
 
 <section class="slide" id="s-title" data-title="Title" data-act="open">
   <div class="eyebrow" data-step="1"><span class="tick"></span>a talk about the machine we all use now</div>
-  <h1 style="font-size:74px;max-width:19ch">The Apple Problem</h1>
-  <p class="lead" data-step="1" style="font-size:29px">How a language model actually works &mdash;<br>and how knowing that makes you better at using it.</p>
+  <h1 style="font-size:70px;max-width:20ch">How LLMs Actually Work</h1>
+  <p class="lead" data-step="1" style="font-size:29px">And how knowing that makes you<br>a great deal better at using one.</p>
   <div class="notes">
     <p><b>Before you start:</b> press <b>F</b> for fullscreen. <b>S</b> toggles these notes. <b>Esc</b> is the slide grid. Arrow keys or a clicker advance one build at a time.</p>
-    <p>Open plainly. Don't oversell. The promise is small and concrete: <b>thirty minutes, and you'll know why it does the weird things it does.</b></p>
-  </div>
-</section>
-
-<section class="slide" id="s-intro" data-title="Who I am / why this talk" data-act="open">
-  <div class="eyebrow"><span class="tick"></span>before we start</div>
-  <h1>I'm not here to sell you on AI.</h1>
-  <p class="lead">You already have access to it. Some of you use it every day and get a lot out of it. Some of you tried it, got something confidently wrong, and quietly stopped.</p>
-  <p class="lead" data-step="1">The difference between those two groups is <em>almost never</em> the tool. It's whether you have a working mental model of what's happening inside it.</p>
-  <div class="panel" data-step="2" style="border-left:3px solid var(--amber)">
-    <p style="margin:0">So: no hype, no jargon you don't need. By the end you'll be able to explain to someone else why it can write a decent first draft but can't count the letters in <span class="mono">strawberry</span>.</p>
-  </div>
-  <div class="notes">
-    <p>Introduce yourself here &mdash; name, team, and one honest line about how you actually use this stuff day to day.</p>
-    <p>The two-groups framing does real work: it gives the skeptics in the room permission to have been unimpressed, without making them wrong. Don't skip it.</p>
-    <p><b>Timing:</b> you want to be on the apple slide by the 3 minute mark.</p>
+    <p>Introduce yourself here &mdash; name, team, one line on how you actually use this stuff day to day.</p>
+    <p>Then open plainly. Don't oversell. The promise is small and concrete: <b>thirty minutes, and you'll know why it does the weird things it does.</b></p>
+    <p><b>Timing:</b> you want to be on the apple slide inside two minutes.</p>
   </div>
 </section>
 
@@ -66,11 +53,10 @@
 
 <section class="slide is-void" id="s-context" data-title="context." data-act="the hook">
   <div class="hero" style="color:var(--amber)">context.</div>
-  <p class="lead" data-step="1" style="text-align:center;max-width:40ch;font-size:25px;margin-top:16px">You did that in half a second without noticing.<br>It is also, more or less, the entire architecture.</p>
   <div class="notes">
     <p>Hard cut. Say the word out loud once, flat, and let it sit.</p>
     <p>Optional, if the room laughed: <b>"Surprise."</b></p>
-    <p><b>Then press once more</b> for the bridge line. It's carrying the job a whole slide used to do, so deliver it and move &mdash; don't elaborate. The next thing out of your mouth is "let me show you the machine that does it."</p>
+    <p>Nothing else on this slide. Say the bridge out loud instead of putting it on screen: <b>"you did that in half a second without noticing &mdash; and it's also, more or less, the entire architecture. Let me show you the machine that does it."</b> Then advance.</p>
   </div>
 </section>
 
@@ -85,7 +71,7 @@
     <p>Three things to land, in order:</p>
     <p>1. <b>Common words survive whole, rare ones shatter.</b> Hit "rare words" &mdash; <span class="mono">unbelievable</span> becomes four pieces. The vocabulary was <em>learned</em> from what's frequent.</p>
     <p>2. <b>Hit "apple ×3".</b> <span class="mono">apple</span>, <span class="mono">Apple</span>, and <span class="mono">·apple</span> with a leading space are three <em>different</em> tokens with three different IDs. The dot is the space. This surprises people.</p>
-    <p>3. <b>Hit "strawberry."</b> It comes apart as <span class="mono">st / raw / berry</span>. Park that &mdash; you're coming back to it in two slides.</p>
+    <p>3. <b>Hit "strawberry."</b> It comes apart as <span class="mono">st / raw / berry</span>. Park that &mdash; you're coming back to it in four slides.</p>
     <p>If someone asks: modern models have bigger vocabularies, but this is the same mechanism.</p>
   </div>
 </section>
@@ -94,18 +80,11 @@
   <div class="eyebrow"><span class="tick"></span>act one &middot; how words get in</div>
   <h2 style="font-size:34px">The token number is just an address. This is what's at that address.</h2>
   <div id="w-vector"></div>
-  <div class="deeper" data-step="3">
-    <span class="mark">read later</span>
-    <div>
-      <p>There is no dictionary in the model. No definition of <span class="mono">apple</span> sitting in a file. Token 17180 is a row number, and the row is this list of numbers &mdash; which on its own means nothing at all.</p>
-      <p>This is also where the size of these things starts to become real. That grid is <strong>one token</strong>. A 500-word prompt is roughly 650 tokens, so the model is holding about <strong>2.7 million numbers</strong> just to represent what you typed &mdash; before it has done a single thing with it.</p>
-    </div>
-  </div>
   <div class="notes">
     <p>The point of this slide is <b>volume</b>. Let the grid land before you talk over it.</p>
     <p>Beat 1: a handful of numbers &mdash; "so far, so boring."</p>
     <p>Beat 2: the full grid. <b>"Every square is one number. That's four thousand and ninety-six numbers, for one word."</b> Pause there. This is the slide where the scale of the thing stops being abstract.</p>
-    <p>Beat 3 brings up the read-later block; you don't need to say any of it. If you want one line from it, use the 2.7 million.</p>
+    <p>One line worth adding if the room is with you: a 500-word prompt is roughly 650 tokens, so it is holding about <b>2.7 million numbers</b> just to represent what you typed &mdash; before doing anything with it.</p>
     <p>If asked why 4,096: it's a design choice per model. Bigger means more capacity and more compute. GPT-3 used 12,288.</p>
   </div>
 </section>
@@ -118,19 +97,12 @@
   <h2 style="font-size:33px">So what does each number <em>mean</em>? On its own &mdash; nothing.</h2>
   <p class="lead" data-step="1" style="font-size:22px;max-width:88ch">No single number is &ldquo;redness.&rdquo; But ask a different question &mdash; not <em>what does this number mean</em>, but <em>which directions through this space mean something</em> &mdash; and the answers are there.</p>
   <div id="w-meaning"></div>
-  <div class="deeper" data-step="3">
-    <span class="mark">read later</span>
-    <div>
-      <p>A concept isn't stored in a dimension, it's stored as a <strong>direction</strong> &mdash; a blend of thousands of dimensions at once. Click a concept and watch which squares light up: scattered across the whole vector, never gathered anywhere.</p>
-      <p>That's what lets a model carry far more concepts than it has dimensions &mdash; in a space this big, a huge number of directions barely overlap, so concepts share the same numbers without interfering. It's called <strong>superposition</strong>, and it's the main reason you can't open a model up and read what it knows.</p>
-    </div>
-  </div>
   <div class="notes">
     <p><b>Correcting the obvious guess is the whole slide.</b> Most people assume dimension 400 is "redness". It isn't, and the truth is more interesting.</p>
     <p>Beat 1: the reframe &mdash; stop asking what one number means, start asking which directions mean something.</p>
     <p>Beat 2: the meters. <b>Click "food" and point at the grid</b> &mdash; the contributing squares are scattered everywhere. Then click "companies" and show it's a completely different scattering of the same squares.</p>
     <p><b>Click "law, courts" too.</b> It reads flat. That's the control: these meters are measuring something, not just drawing bars.</p>
-    <p>Beat 3: the read-later block. Say one sentence from it &mdash; "concepts are directions, not slots" &mdash; and move on.</p>
+    <p>The sentence to say once, clearly: <b>"a concept isn't a slot, it's a direction &mdash; and that is why you can't open a model up and read what it knows."</b> If anyone wants the term for it: superposition.</p>
     <p><b>Land the last line out loud:</b> food and companies come back almost exactly tied. That's the slide-3 problem, in numbers, and it sets up the map.</p>
     <p>Honesty if asked: these directions were constructed so the demo is deterministic. The projection maths recovering them is real, and the structure &mdash; concepts as directions spread across dimensions &mdash; is what interpretability research actually finds in real models.</p>
   </div>
@@ -259,18 +231,10 @@
       <div><div class="pill" style="margin-bottom:10px">softmax &middot; turn into shares</div><p class="small">squash those into percentages that add to 100. Attention is a fixed budget being divided up</p></div>
     </div>
   </div>
-  <div class="deeper" data-step="3" style="margin-top:2px">
-    <span class="mark">on &radic;d</span>
-    <div>
-      <p>Those match scores are sums over thousands of dimensions, so they grow with the size of the vectors &mdash; a 4,096-dimensional model would produce numbers roughly 64&times; larger than a 1-dimensional one, for no meaningful reason.</p>
-      <p>That matters because of what comes next. <strong>Softmax is winner-take-all when the numbers are large:</strong> feed it 40 and 38 and the first one takes essentially all the attention, and everything else is ignored. Dividing by &radic;d holds the scores in a range where softmax still spreads attention across several tokens instead of collapsing onto one &mdash; which also keeps the thing trainable, since a collapsed softmax stops producing useful gradients.</p>
-      <p>It is, in other words, a unit-conversion step. Not a deep idea, but the mechanism doesn't work without it.</p>
-    </div>
-  </div>
   <div class="notes">
     <p>Promise kept: this is the only formula. Say that out loud &mdash; the non-technical half of the room relaxes immediately. Add: <b>"and you already understand every piece of it, I just showed you all three."</b></p>
     <p><b>The idea to actually land is "fixed budget."</b> Softmax forces the weights to sum to one. Attention paid to one token is attention taken from another. That single fact is the entire basis of payoff slide #2, so plant it firmly here.</p>
-    <p><b>On &radic;d, say the short version out loud and leave the rest on screen:</b> "that's a unit conversion. The match scores get bigger just because the vectors are long, and if you let them get too big the softmax hands everything to one token and ignores the rest." That's enough. The read-later block has the trainability detail for anyone who wants it.</p>
+    <p><b>On &radic;d, say the short version out loud and leave the rest on screen:</b> "that's a unit conversion. The match scores get bigger just because the vectors are long, and if you let them get too big the softmax hands everything to one token and ignores the rest." That's enough. If an engineer pushes, the fuller reason is that a collapsed softmax also stops producing useful gradients, so the model would train badly without it.</p>
     <p>If nobody in the room is technical, you can advance through this in fifteen seconds. Don't cut it &mdash; seeing the real formula and being told they already understand it is worth the time.</p>
   </div>
 </section>
@@ -377,14 +341,9 @@
       <div id="w-residual"></div>
     </div>
   </div>
+  <!-- Five build steps: the notes start with one line and add one per press. -->
+  <span data-step="5" aria-hidden="true"></span>
 
-  <div class="deeper" data-step="6">
-    <span class="mark">read later</span>
-    <div>
-      <p>The two halves of a block do different jobs. <strong>Attention gathers</strong> &mdash; it goes and fetches whatever the other words in the sentence have to offer. <strong>The feed-forward layer thinks</strong> &mdash; it takes what was just gathered and works out what follows from it, and it's where most of the model's stored knowledge lives, holding roughly two-thirds of all its parameters.</p>
-      <p>Crucially, no block ever throws the notes away. Each one <em>adds</em> to what's already there, so the original word is still in the mix at layer eighty. That running total has a name &mdash; the <strong>residual stream</strong> &mdash; and it's why a deep model refines a meaning rather than losing it.</p>
-    </div>
-  </div>
 
   <div class="notes">
     <p><b>This is the slide people get lost on, so lead with the notes and treat the diagram as wallpaper.</b> Don't say "residual stream" out loud. Say "notes".</p>
@@ -392,7 +351,7 @@
     <p>Then step through the notes one press at a time and just read them. The list <em>is</em> the explanation:</p>
     <p>&mdash; it starts knowing nothing<br>&mdash; attention finds it got picked<br>&mdash; the feed-forward works out what that implies<br>&mdash; a later block notices the orchard<br>&mdash; and by the end the meaning is fully specific</p>
     <p>Point at the diagram once, at the arrow: <b>"and the notes only ever go up. Nothing gets thrown away &mdash; each block adds to what's already written."</b> That's all the diagram needs to do.</p>
-    <p>Last beat brings up the read-later block. The one line worth saying out loud: <b>attention gathers, the feed-forward thinks, and the feed-forward is where most of the parameters actually are.</b> People assume the knowledge is in attention. It isn't.</p>
+    <p>The one line worth saying out loud at the end: <b>attention gathers, the feed-forward thinks, and the feed-forward is where most of the parameters actually are.</b> People assume the knowledge is in attention. It isn't.</p>
   </div>
 </section>
 
@@ -436,7 +395,7 @@
     <p>Let it play. The rhythm does the work.</p>
     <p><b>The line:</b> "There is no plan. There is no outline it's working from. Every word you have ever seen it produce was chosen with no knowledge of the word that came after."</p>
     <p>Callback: <b>this is why tokens can only look backwards.</b> The mask you saw on the attention slide is what makes this loop possible.</p>
-    <p><b>And the practical hook, which sets up the playbook:</b> if it can only think by producing tokens, then giving it room to produce tokens before answering &mdash; "think it through step by step", "list the options first" &mdash; is literally giving it more computation. That's not a trick. That's the architecture.</p>
+    <p><b>And the practical hook:</b> if it can only think by producing tokens, then giving it room to produce tokens before answering &mdash; "think it through step by step", "list the options first" &mdash; is literally giving it more computation. That's not a trick. That's the architecture.</p>
   </div>
 </section>
 
@@ -534,64 +493,17 @@
     <div class="fix-cell" data-step="3" style="border-bottom:0"><p class="small"><strong>Restate it near the end, or start fresh.</strong> Don't trust a rule to survive a long thread because you said it once.</p></div>
   </div>
 
-  <div class="deeper" data-step="4">
-    <span class="mark">read later</span>
-    <div>
-      <p><strong>Fluency carries no information about accuracy.</strong> The confident, agreeable voice is a trained style from stage three; whether the content is true was settled in stage one, and the two were never connected. Right and wrong answers arrive in exactly the same tone.</p>
-      <p>So it isn't unreliable so much as <em>reliable in a shape you have to learn</em>: strong wherever plausible and correct coincide &mdash; drafting, restructuring, explaining, arguing the other side &mdash; and weakest exactly where they come apart: specific facts, precise figures, anything recent or internal.</p>
-    </div>
-  </div>
 
   <div class="notes">
     <p>Now you pay off the pause. <b>One row per press</b>, and read across the row: symptom, cause, fix.</p>
     <p>Every cause here is a callback &mdash; say which slide it came from. Row 1 is the prediction slide. Row 2 is the training-stages slide. Row 3 is the fixed-budget slide. That's the moment the whole talk clicks into place as one thing rather than a tour.</p>
     <p><b>Row 2 is the one people act on.</b> Give them the exact phrasing and tell them to steal it: <em>"what's the strongest argument this is wrong?"</em> Anyone using this for review or feedback should write it down.</p>
-    <p>Last press brings up the read-later block. Say only the first sentence out loud: <b>"fluency carries no information about accuracy."</b> Leave the rest for them.</p>
-    <p><b>Tone check:</b> the framing is "knowing the failure mode is what lets you use it hard", not "be careful, it's unreliable". Don't end this slide sounding cynical &mdash; the playbook is next and it's constructive.</p>
+    <p>Close the slide on the through-line, said plainly: <b>"fluency carries no information about accuracy."</b> The confident, agreeable voice is a trained style; whether the content is true was settled in a completely different training stage, and the two were never connected.</p>
+    <p><b>Tone check:</b> the framing is "knowing the failure mode is what lets you use it hard", not "be careful, it's unreliable". Don't end sounding cynical &mdash; the point is that knowing the failure mode is what lets you lean on the thing harder, not less.</p>
   </div>
 </section>
 
 <!-- ═══════════════════════════════ CLOSE ══════════════════════════════════ -->
-
-<section class="slide" id="s-playbook" data-title="The playbook" data-act="close">
-  <div class="eyebrow"><span class="tick"></span>the whole talk, on one slide</div>
-  <h2 style="font-size:33px">Seven habits, and the reason each one works.</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 30px;margin-top:6px">
-    <div class="panel" style="padding:14px 18px">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Be specific about the target.</strong></p>
-      <p class="tiny">Words are coordinates. Vague words point at the average of everything.</p>
-    </div>
-    <div class="panel" style="padding:14px 18px">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Keep the window clean.</strong></p>
-      <p class="tiny">Attention is a fixed budget. Irrelevant context is subtracted from the relevant kind.</p>
-    </div>
-    <div class="panel" style="padding:14px 18px">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Paste the real thing.</strong></p>
-      <p class="tiny">It can only attend to what's actually in the window. A description isn't the document.</p>
-    </div>
-    <div class="panel" style="padding:14px 18px">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Restate the goal at the end.</strong></p>
-      <p class="tiny">Recency competes better. Don't trust an instruction to survive forty messages.</p>
-    </div>
-    <div class="panel" style="padding:14px 18px">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Let it think out loud first.</strong></p>
-      <p class="tiny">It computes by producing tokens. Room to work is literally more computation.</p>
-    </div>
-    <div class="panel" style="padding:14px 18px">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Ask for the counter-argument.</strong></p>
-      <p class="tiny">Agreement was rewarded. You have to explicitly buy the criticism back.</p>
-    </div>
-    <div class="panel" style="padding:14px 18px;grid-column:1 / -1;border-left:3px solid var(--amber)">
-      <p style="font-size:19px;margin-bottom:5px"><strong>Verify anything that has to be true.</strong></p>
-      <p class="tiny">It returns the most plausible continuation, not the most correct one. That's the machine, not a defect &mdash; and it's the one habit that makes all the others safe to rely on.</p>
-    </div>
-  </div>
-  <div class="notes">
-    <p><b>This is the photograph slide.</b> Say "this is the one to take a picture of" and then genuinely stop talking for five seconds. Let them.</p>
-    <p>Don't read all seven aloud &mdash; you've earned every one already. Pick the two that fit your team best and say those.</p>
-    <p>Then offer: you'll send the deck round afterwards. Everything here is clickable.</p>
-  </div>
-</section>
 
 <section class="slide is-void" id="s-close" data-title="Back to apple" data-act="close">
   <div class="hero">apple</div>
@@ -599,7 +511,7 @@
   <p class="small" data-step="2" style="text-align:center;color:var(--amber);font-size:22px">Now you know why &mdash; and what to do about it.</p>
   <div class="notes">
     <p>Back where you started, on the same word, on the same black.</p>
-    <p>Land the two lines and stop. <b>Don't add a summary</b> &mdash; the playbook slide was the summary.</p>
+    <p>Land the two lines and stop. <b>Don't add a summary.</b> The three payoff slides were the summary, and the room has already photographed them.</p>
     <p>Then: "Questions." Press <b>Esc</b> for the slide grid to jump back to anything they ask about &mdash; the attention demo and the moving-vector slide are the two people usually want to see again.</p>
   </div>
 </section>

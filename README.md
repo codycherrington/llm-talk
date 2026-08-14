@@ -1,4 +1,4 @@
-# The Apple Problem
+# How LLMs Actually Work
 
 An animated, interactive slide deck explaining how a large language model
 actually works — and how understanding the mechanism makes you better at using
@@ -28,7 +28,7 @@ local, so it works on conference-room wifi that doesn't exist.
 A presentation clicker works (it sends arrow keys). Clicking the slide also
 advances, except on widget controls.
 
-`index.html?slide=16` jumps straight to a slide for rehearsal.
+`index.html?slide=14` jumps straight to a slide for rehearsal.
 Add `&steps=all` to land with every build already revealed.
 
 **Read [`SPEAKER-SCRIPT.md`](SPEAKER-SCRIPT.md) before presenting.** It has the
@@ -41,18 +41,15 @@ Nine slides are live, not animations. Drive them.
 
 | Slide | What you can do |
 |---|---|
-| 06 Tokenization | Type any sentence, see the real GPT-2 split and token IDs |
-| 07 One token, 4,096 numbers | Watch a single token's whole vector appear |
-| 08 What the numbers mean | Click a concept, see which dimensions carry it |
-| 09 The map | Watch `apple` land stranded between two clusters |
-| 14 Attention | Click any token to see what it looks back at |
-| 15 The vector moves | Run one layer at a time and watch meaning resolve |
-| 17 Running notes | Step through what the token means after each block |
-| 19 Next token | Compare contexts, drag the temperature slider |
-| 21 How it learns | Real gradient descent, running live |
-
-Several slides also carry a quieter **read later** block at the bottom. Those
-aren't meant to be read aloud — they're for whoever opens the deck afterwards.
+| 05 Tokenization | Type any sentence, see the real GPT-2 split and token IDs |
+| 06 One token, 4,096 numbers | Watch a single token's whole vector appear |
+| 07 What the numbers mean | Click a concept, see which dimensions carry it |
+| 08 The map | Watch `apple` land stranded between two clusters |
+| 13 Attention | Click any token to see what it looks back at |
+| 14 The vector moves | Run one layer at a time and watch meaning resolve |
+| 16 Running notes | Step through what the token means after each block |
+| 18 Next token | Compare contexts, drag the temperature slider |
+| 20 How it learns | Real gradient descent, running live |
 
 ## What's real and what's schematic
 
@@ -67,7 +64,7 @@ labelled as such on the slide itself.
   thousands of learned ones, so the axes mean something you can point at.
 - **Gradient descent — real.** The weights start as noise, the loss is measured
   from the run, the curve is not drawn.
-- **Concept directions — constructed, projections real.** On slide 8 the named
+- **Concept directions — constructed, projections real.** On slide 7 the named
   directions (food, companies, colour…) were built deliberately, so the demo is
   deterministic and identical every time you present. The projection maths that
   reads those weights back out of a 4,096-dimensional vector is real, and it
@@ -97,7 +94,7 @@ scrolling. `node tools/audit.mjs` catches that:
 $ node tools/audit.mjs
 Slide overflow audit — authoring box is 1280 x 720
 
-All 26 slides fit.
+All 24 slides fit.
 ```
 
 Run it after editing slide copy.
@@ -115,7 +112,7 @@ the Artifact publisher). Zero external requests in either.
 ## Project layout
 
 ```
-index.html              all 26 slides, with speaker notes inline
+index.html              all 24 slides, with speaker notes inline
 css/deck.css            theme tokens, layout, animation
 css/fonts.css           GENERATED — fonts as base64 data URIs
 js/deck.js              navigation, builds, presenter overlay, slide grid

@@ -110,5 +110,5 @@ for (const r of rows) {
   }
 }
 
-console.log(bad ? `\n${bad} slide(s) overflow.` : "\nAll 26 slides fit.");
+console.log(bad ? `\n${bad} slide(s) overflow.` : `\nAll ${rows.length} slides fit.`);
 process.exit(bad ? 1 : 0);

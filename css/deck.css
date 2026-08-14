@@ -328,35 +328,6 @@ ul.clean li::before {
 .concept-row.on { background: var(--amber-soft); border-left-color: var(--amber); color: var(--text); }
 .concept-row:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
-/* --- "Read it later" blocks ---------------------------------------------
-   Slides carry two registers: the big beats you say out loud, and a denser
-   passage underneath for whoever wants to sit with the deck afterwards. The
-   quieter treatment is what keeps the second register from competing with the
-   first from the back of the room. */
-
-.deeper {
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-  display: grid;
-  grid-template-columns: 116px 1fr;
-  gap: 18px;
-  align-items: start;
-}
-
-.deeper > .mark {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--faint);
-  padding-top: 3px;
-}
-
-.deeper p { font-size: 16px; line-height: 1.55; color: var(--muted); max-width: 84ch; }
-.deeper p + p { margin-top: 8px; }
-.deeper em { color: var(--text-dim); }
-.deeper strong { color: var(--text-dim); font-weight: 600; }
-
 /* --- The "so what" payoff slides ---------------------------------------- */
 /* Deliberately a different world: amber rail, lifted ground. The room learns
    within two occurrences that this is the part they can use tomorrow. */
